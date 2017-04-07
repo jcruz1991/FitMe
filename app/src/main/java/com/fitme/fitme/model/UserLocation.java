@@ -2,10 +2,12 @@ package com.fitme.fitme.model;
 
 
 public class UserLocation {
+    int id;
     String email;
     Double latitude;
     Double longitude;
     String city;
+
 
     public UserLocation() {
     }
@@ -20,6 +22,10 @@ public class UserLocation {
     public String getEmail() {
         return email;
     }
+
+    public int getId() { return id; }
+
+    public void setId(int id) { this.id = id; }
 
     public void setEmail(String email) {
         this.email = email;

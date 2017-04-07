@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fitme.fitme.adapter.ListUserAdapter;
 import com.fitme.fitme.location.LocationCalculator;
 import com.fitme.fitme.model.UserLocation;
 import com.google.android.gms.common.ConnectionResult;
@@ -41,6 +42,8 @@ public class FindBuddyActivity extends AppCompatActivity
     Location mLastLocation;
     Geocoder geocoder;
 
+    int count = 0;
+
     private FirebaseUser user;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
@@ -52,8 +55,9 @@ public class FindBuddyActivity extends AppCompatActivity
     private Button searchButton;
     private String userID;
     private TextView displayLocalUsers;
-    private ListView localUsers;
+    private ListView localUsersListView;
     private LocationCalculator locationCalculator;
+    private ListUserAdapter adapter;
 
     UserLocation userLocation;
 
@@ -64,6 +68,8 @@ public class FindBuddyActivity extends AppCompatActivity
 
         searchButton = (Button) findViewById(R.id.searchButton);
         displayLocalUsers = (TextView) findViewById(R.id.activeUserTextView);
+        localUsersListView = (ListView) findViewById(R.id.localUsers);
+
         userLocation = new UserLocation();
         locals = new ArrayList<UserLocation>();
 
@@ -150,6 +156,7 @@ public class FindBuddyActivity extends AppCompatActivity
                 addresses = geocoder.getFromLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude(), 1);
                 String city = addresses.get(0).getLocality();
 
+                userLocation.setId(count++);
                 userLocation.setEmail(user.getEmail());
                 userLocation.setLatitude(mLastLocation.getLatitude());
                 userLocation.setLongitude(mLastLocation.getLongitude());
@@ -180,15 +187,10 @@ public class FindBuddyActivity extends AppCompatActivity
     }
 
     private void displayLocalUsers(List<UserLocation> usersNearYou) {
-        //ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, locals);
-        //localUsers.setAdapter(adapter);
-        for(int i = 0; i < usersNearYou.size(); i++) {
-            displayLocalUsers.append("\nEmail: " + usersNearYou.get(i).getEmail() + "\nLatitude: " +
-                    usersNearYou.get(i).getLatitude() + "\nLongitude: " + usersNearYou.get(i).getLongitude()
-                    + "\nCity: " + usersNearYou.get(i).getCity());
-        }
-    }
+        adapter = new ListUserAdapter(this, usersNearYou);
+        localUsersListView.setAdapter(adapter);
 
+    }
     @Override
     protected void onStart() {
         mGoogleApiClient.connect();
