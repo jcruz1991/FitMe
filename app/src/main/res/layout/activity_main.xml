@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.fitme.fitme.MainActivity">
+
+
+    <TextView
+        android:id="@+id/userTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="clip_horizontal"
+        android:text="In Main Activity"
+        android:textSize="20dp"/>
+
+    <Button
+        android:id="@+id/findBuddyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userTextView"
+        android:text="Find Buddy"
+        android:gravity="center"
+        android:onClick="findBuddyButtonClicked"/>
+
+    <Button
+        android:id="@+id/signOutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/findBuddyButton"
+        android:text="Sign Out"
+        android:gravity="center"
+        android:onClick="signOutButtonClicked"/>
+
+</RelativeLayout>
