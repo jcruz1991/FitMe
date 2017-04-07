@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -89,6 +90,15 @@ public class FindBuddyActivity extends AppCompatActivity
                     .addApi(LocationServices.API)
                     .build();
         }
+
+        localUsersListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), "clicked", Toast
+                        .LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void searchButtonClicked(View view) {
