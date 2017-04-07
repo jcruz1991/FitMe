@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //get firebase auth instance
+        //get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
         database = FirebaseDatabase.getInstance().getReference();
@@ -37,39 +37,29 @@ public class MainActivity extends AppCompatActivity {
         //get current user
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+        // Display users email to userTextView
         userTextView.setText(user.getEmail());
     }
 
+    /**
+     * Button click event when user clicks find a buddy button
+     * will take them to FindBuddy screen
+     * @param view
+     */
     public void findBuddyButtonClicked(View view) {
         Intent intent = new Intent(MainActivity.this, FindBuddyActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Button click event when users signs out, will take
+     * them back to login screen
+     * @param view
+     */
     public void signOutButtonClicked(View view) {
         auth.signOut();
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
-
-    /*
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        auth.addAuthStateListener(authListener);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (authListener != null) {
-            auth.removeAuthStateListener(authListener);
-        }
-    }
-    */
 }

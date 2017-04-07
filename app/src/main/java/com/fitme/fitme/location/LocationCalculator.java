@@ -8,7 +8,9 @@ public class LocationCalculator {
 
     public LocationCalculator() {}
 
-    /** calculates the distance between two locations in KM */
+    /**
+     * Calculates the distance between two locations in KM
+     * */
     public double calculateDistance(UserLocation location1, UserLocation location2) {
 
         double latDistance = Math.toRadians(location1.getLatitude() - location2.getLatitude());

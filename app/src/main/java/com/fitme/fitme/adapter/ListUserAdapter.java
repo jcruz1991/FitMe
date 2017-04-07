@@ -15,6 +15,11 @@ public class ListUserAdapter extends BaseAdapter {
     private Context context;
     private List<UserLocation> userLocations;
 
+    /**
+     * Constructor
+     * @param context
+     * @param userLocations
+     */
     public ListUserAdapter(Context context, List<UserLocation> userLocations) {
         this.context = context;
         this.userLocations = userLocations;

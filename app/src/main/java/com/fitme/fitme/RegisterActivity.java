@@ -31,9 +31,6 @@ public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
-
-    //final Firebase rootRef = new Firebase("https://fitme-a43f9.firebaseio.com/");
-
     User user;
 
     @Override
@@ -41,11 +38,11 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        //Get Firebase auth instance
+        //Get Firebase auth instance and database reference
         mAuth = FirebaseAuth.getInstance();
-
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        // Init views
         inputName = (EditText) findViewById(R.id.registerNameEditText);
         inputEmail = (EditText) findViewById(R.id.registerEmailEditText);
         inputPassword = (EditText) findViewById(R.id.registerPasswordEditText);
@@ -55,27 +52,31 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Register Button Click Event
+     * @param view
+     */
     public void registerButtonClicked(View view) {
         final String  name = inputName.getText().toString().trim();
         final String email = inputEmail.getText().toString().trim();
         final String password = inputPassword.getText().toString().trim();
 
-        // Check if input fields are empty
+        // Check if name input field is empty
         if (TextUtils.isEmpty(name)) {
             Toast.makeText(getApplicationContext(), "Enter Name", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        // Check if email input field is empty
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(getApplicationContext(), "Enter Email", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        // Check if password input field is empty
         if (TextUtils.isEmpty(password)) {
             Toast.makeText(getApplicationContext(), "Enter Password", Toast.LENGTH_SHORT).show();
             return;
         }
-        // Check Password Length
+        // Check Password Length must be greater than or equal to 6
         if(password.length() < 6) {
             Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters", Toast.LENGTH_SHORT).show();
             return;
@@ -93,7 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
                 if(!task.isSuccessful()) {
                     Log.d("FAILED", "Could not create user");
                 } else {
-
+                    // User can be added to Firebase DB calls createNewUser
                     createNewUser(task.getResult().getUser().getEmail(), task.getResult().getUser().getUid());
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
@@ -103,17 +104,26 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Insert new user into Firebase
+     * @param email
+     * @param uId
+     */
     private void createNewUser(String email, String uId) {
         String name = inputName.getText().toString();
         Log.d("NAME", name);
         Log.d("EMAIL", email);
         Log.d("UID", uId);
-
         User user = new User(name, email);
 
+        // Add to Firebase
         mDatabase.child("users").child(uId).setValue(user);
     }
 
+    /**
+     * Click Listener if loginTextView clicked return to Login Screen
+     * @param view
+     */
     public void loginTextViewClicked(View view) {
         // Open Login Activity
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
