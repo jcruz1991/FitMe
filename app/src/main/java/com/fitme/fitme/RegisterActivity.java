@@ -111,9 +111,6 @@ public class RegisterActivity extends AppCompatActivity {
      */
     private void createNewUser(String email, String uId) {
         String name = inputName.getText().toString();
-        Log.d("NAME", name);
-        Log.d("EMAIL", email);
-        Log.d("UID", uId);
         User user = new User(name, email);
 
         // Add to Firebase

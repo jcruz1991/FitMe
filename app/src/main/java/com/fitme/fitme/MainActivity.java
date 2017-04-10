@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.fitme.fitme.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -15,11 +16,12 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView userTextView;
 
-    DatabaseReference database;
-    DatabaseReference ref;
+    private DatabaseReference databaseReference;
+    private DatabaseReference mRef;
+    private FirebaseUser user;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
-
+    User activeUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +30,15 @@ public class MainActivity extends AppCompatActivity {
 
         //get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+        activeUser = new User();
 
-        database = FirebaseDatabase.getInstance().getReference();
-        ref = database.child("users");
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        mRef = databaseReference.child("users");
 
         userTextView = (TextView) findViewById(R.id.userTextView);
 
         //get current user
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
         // Display users email to userTextView
         userTextView.setText(user.getEmail());

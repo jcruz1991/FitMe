@@ -1,25 +1,16 @@
 package com.fitme.fitme.adapter;
 
-import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
-
-import com.fitme.fitme.R;
-import com.fitme.fitme.model.UserLocation;
-
-import java.util.List;
-
+/*
 public class ListUserAdapter extends BaseAdapter {
     private Context context;
     private List<UserLocation> userLocations;
-
+    */
     /**
      * Constructor
      * @param context
      * @param userLocations
      */
+    /*
     public ListUserAdapter(Context context, List<UserLocation> userLocations) {
         this.context = context;
         this.userLocations = userLocations;
@@ -52,3 +43,4 @@ public class ListUserAdapter extends BaseAdapter {
         return v;
     }
 }
+    */

@@ -1,5 +1,6 @@
 package com.fitme.fitme;
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -15,7 +16,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fitme.fitme.adapter.ListUserAdapter;
+import com.firebase.ui.database.FirebaseListAdapter;
+import com.fitme.fitme.chat.ChatActivity;
 import com.fitme.fitme.location.LocationCalculator;
 import com.fitme.fitme.model.UserLocation;
 import com.google.android.gms.common.ConnectionResult;
@@ -49,6 +51,7 @@ public class FindBuddyActivity extends AppCompatActivity
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseListAdapter<UserLocation> firebaseListAdapter;
     private DatabaseReference myRef;
 
     private List<UserLocation> locals;
@@ -56,9 +59,10 @@ public class FindBuddyActivity extends AppCompatActivity
     private Button searchButton;
     private String userID;
     private TextView displayLocalUsers;
+    private TextView email;
+    private TextView city;
     private ListView localUsersListView;
     private LocationCalculator locationCalculator;
-    private ListUserAdapter adapter;
 
     UserLocation userLocation;
 
@@ -79,7 +83,7 @@ public class FindBuddyActivity extends AppCompatActivity
         // Get Firebase Instances and Refrences
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = mFirebaseDatabase.getReference();
+        myRef = mFirebaseDatabase.getReference().child("locations");
         // Gets logged in users unique ID
         user = mAuth.getCurrentUser();
         userID = user.getUid();
@@ -96,15 +100,38 @@ public class FindBuddyActivity extends AppCompatActivity
                     .build();
         }
 
-        // ListView click listener
-        localUsersListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        localUsersListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "clicked", Toast
-                        .LENGTH_SHORT).show();
+                String key = firebaseListAdapter.getRef(position).getKey();
+                Toast.makeText(getApplicationContext(), key, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                intent.putExtra("LOCATIONS_ID", key);
+                startActivity(intent);
             }
         });
+
+        firebaseListAdapter = new
+                FirebaseListAdapter<UserLocation>(this, UserLocation.class, android.R.layout
+                        .simple_list_item_1, myRef) {
+
+                    @Override
+                    protected void populateView(View v, UserLocation model, int position) {
+
+                        v = View.inflate(getApplicationContext(), R.layout.location_item_list, null);
+                        email = (TextView) v.findViewById(R.id.email);
+                        city = (TextView) v.findViewById(R.id.city);
+
+                        //email.setText(usersNearYou.get(position).getEmail());
+                        //city.setText(usersNearYou.get(position).getCity());
+                        email.setText(model.getEmail());
+                        //Log.d("DISPLAY EMAIL", model.getEmail());
+                        city.setText(model.getCity());
+                        //Log.d("DISPLAY CITY", model.getCity());
+                    }
+                };
+        localUsersListView.setAdapter(firebaseListAdapter);
+
     }
 
     /**
@@ -116,7 +143,7 @@ public class FindBuddyActivity extends AppCompatActivity
         // Get User Location and add it into the database
         getMyLocation();
         // Grab list of users in locations table
-        myRef.child("locations").addValueEventListener(new ValueEventListener() {
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
@@ -217,17 +244,15 @@ public class FindBuddyActivity extends AppCompatActivity
      * @param userLocation
      */
     private void insertIntoDatabase(UserLocation userLocation) {
-        myRef.child("locations").child(userID).setValue(userLocation);
+        myRef.child(userID).setValue(userLocation);
     }
 
     /**
      * Display list of usersNearYou onto ListView
      * @param usersNearYou
      */
-    private void displayLocalUsers(List<UserLocation> usersNearYou) {
-        adapter = new ListUserAdapter(this, usersNearYou);
-        localUsersListView.setAdapter(adapter);
-
+    private void displayLocalUsers(final List<UserLocation> usersNearYou) {
+        Log.d("DISPLAY COUNT", Integer.toString(usersNearYou.size()));
     }
     @Override
     protected void onStart() {
