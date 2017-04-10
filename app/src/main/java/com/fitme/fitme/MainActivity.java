@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
         //get current user
         user = FirebaseAuth.getInstance().getCurrentUser();
-
         // Display users email to userTextView
         userTextView.setText(user.getEmail());
     }

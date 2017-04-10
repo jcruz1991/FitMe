@@ -57,6 +57,7 @@ public class FindBuddyActivity extends AppCompatActivity
     private List<UserLocation> locals;
     private List<UserLocation> usersNearYou;
     private Button searchButton;
+    private Button removeButton;
     private String userID;
     private TextView displayLocalUsers;
     private TextView email;
@@ -73,8 +74,12 @@ public class FindBuddyActivity extends AppCompatActivity
 
         // Init Views
         searchButton = (Button) findViewById(R.id.searchButton);
+        removeButton = (Button) findViewById(R.id.removeButton);
         displayLocalUsers = (TextView) findViewById(R.id.activeUserTextView);
         localUsersListView = (ListView) findViewById(R.id.localUsers);
+
+        //Remove button to Invisible
+        removeButton.setVisibility(View.INVISIBLE);
 
         // Init userLocation Onject and List
         userLocation = new UserLocation();
@@ -135,13 +140,15 @@ public class FindBuddyActivity extends AppCompatActivity
     }
 
     /**
-     * Click Even when search for partner button is clicked
+     * Click Event when search for partner button is clicked
      * @param view
      */
     public void searchButtonClicked(View view) {
 
         // Get User Location and add it into the database
         getMyLocation();
+        searchButton.setVisibility(View.INVISIBLE);
+        removeButton.setVisibility(View.VISIBLE);
         // Grab list of users in locations table
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -156,6 +163,16 @@ public class FindBuddyActivity extends AppCompatActivity
 
             }
         });
+    }
+
+    /**
+     * Click Event when remove location button is clicked
+     * @param view
+     */
+    public void removeLocationClicked(View view) {
+        myRef.child(userID).removeValue();
+        searchButton.setVisibility(View.VISIBLE);
+        removeButton.setVisibility(View.INVISIBLE);
     }
 
     /**
