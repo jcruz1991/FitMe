@@ -1,19 +1,18 @@
 package com.fitme.fitme.model;
 
-import java.util.Date;
-
 public class Workout {
     private String e_desc;
     private String e_name;
     private String user_name;
     private String w_category;
-    private Date w_date;
+    private String w_date;
     private String w_name;
 
     public Workout() {
     }
 
-    public Workout(String e_desc, String e_name, String user_name, String w_category, Date w_date, String w_name) {
+    public Workout(String e_desc, String e_name, String user_name, String w_category, String w_date,
+                   String w_name) {
         this.e_desc = e_desc;
         this.e_name = e_name;
         this.user_name = user_name;
@@ -54,11 +53,11 @@ public class Workout {
         this.w_category = w_category;
     }
 
-    public Date getW_date() {
+    public String getW_date() {
         return w_date;
     }
 
-    public void setW_date(Date w_date) {
+    public void setW_date(String w_date) {
         this.w_date = w_date;
     }
 

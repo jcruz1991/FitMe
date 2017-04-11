@@ -26,7 +26,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class WorkoutActivity extends AppCompatActivity {
@@ -60,6 +62,8 @@ public class WorkoutActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference().child("exercises");
+        // Gets logged in users unique ID
+        user = mAuth.getCurrentUser();
 
         // Get current user
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -68,6 +72,7 @@ public class WorkoutActivity extends AppCompatActivity {
         bodyTypeListView = (ListView) findViewById(R.id.bodyTypeListView);
 
         workout = new Workout();
+        workout.setUser_name(user.getEmail());
 
         chestExercises = new ArrayList<>();
         armsExercises = new ArrayList<>();
@@ -193,6 +198,15 @@ public class WorkoutActivity extends AppCompatActivity {
     public void saveWorkoutButtonClicked(View view) {
         DatabaseReference ref;
         ref = mFirebaseDatabase.getReference().child("workout");
+
+        Calendar c = Calendar.getInstance();
+        System.out.println("Current time => " + c.getTime());
+
+        // Grab date
+        SimpleDateFormat df = new SimpleDateFormat("MMM-dd-yyyy");
+        String formattedDate = df.format(c.getTime());
+
+        workout.setW_date(formattedDate);
 
         ref.push().setValue(workout);
     }
