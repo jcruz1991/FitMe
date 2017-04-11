@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -35,6 +36,8 @@ public class WorkoutActivity extends AppCompatActivity {
     public Workout workout;
 
     private ListView bodyTypeListView;
+    private Button saveWorkoutButton;
+
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     private DatabaseReference myRef;
@@ -61,6 +64,7 @@ public class WorkoutActivity extends AppCompatActivity {
         // Get current user
         user = FirebaseAuth.getInstance().getCurrentUser();
 
+        saveWorkoutButton = (Button) findViewById(R.id.saveWorkoutButton);
         bodyTypeListView = (ListView) findViewById(R.id.bodyTypeListView);
 
         workout = new Workout();
@@ -103,28 +107,6 @@ public class WorkoutActivity extends AppCompatActivity {
                         startActivity(legsIntent);
                         break;
                 }
-                /*
-                if(position == 0) {
-                    Intent intent = new Intent(getApplicationContext(),BodyTypeActivity.class);
-                    intent.putExtra("mylist", (Serializable) chestExercises);
-                    startActivity(intent);
-                }
-
-                else if(position == 1) {
-                    Intent intent = new Intent(getApplicationContext(),BodyTypeActivity.class);
-                    intent.putExtra("mylist", (Serializable) backExercises);
-                    startActivity(intent);
-                }
-                else if(position == 2) {
-                    Intent intent = new Intent(getApplicationContext(),BodyTypeActivity.class);
-                    intent.putExtra("mylist", (Serializable) armsExercises);
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(getApplicationContext(),BodyTypeActivity.class);
-                    intent.putExtra("mylist", (Serializable) legsExercises);
-                    startActivity(intent);
-                }
-                */
 
             }
         });
@@ -147,6 +129,8 @@ public class WorkoutActivity extends AppCompatActivity {
                             .LENGTH_SHORT).show();
                     requestWorkoutName();
                 }
+
+                workout.setW_name(workoutName);
             }
         });
 
@@ -204,5 +188,12 @@ public class WorkoutActivity extends AppCompatActivity {
         ArrayAdapter<String> itemsAdapter =
                 new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, bodyTypes);
         bodyTypeListView.setAdapter(itemsAdapter);
+    }
+
+    public void saveWorkoutButtonClicked(View view) {
+        DatabaseReference ref;
+        ref = mFirebaseDatabase.getReference().child("workout");
+
+        ref.push().setValue(workout);
     }
 }
