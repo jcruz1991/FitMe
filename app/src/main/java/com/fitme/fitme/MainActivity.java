@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.fitme.fitme.model.User;
+import com.fitme.fitme.workout.WorkoutActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -19,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private DatabaseReference mRef;
     private FirebaseUser user;
-    private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
     User activeUser;
 
@@ -63,5 +63,14 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    /**
+     * Button click event to generate workouts
+     * @param view
+     */
+    public void workoutButtonClicked(View view) {
+        Intent intent = new Intent(MainActivity.this, WorkoutActivity.class);
+        startActivity(intent);
     }
 }

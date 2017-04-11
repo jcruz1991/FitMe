@@ -60,10 +60,14 @@ public class FindBuddyActivity extends AppCompatActivity
     private Button removeButton;
     private String userID;
     private TextView displayLocalUsers;
-    private TextView email;
-    private TextView city;
+    //private TextView email;
+    //private TextView city;
     private ListView localUsersListView;
     private LocationCalculator locationCalculator;
+
+
+    private TextView textViews;
+
 
     UserLocation userLocation;
 
@@ -77,6 +81,8 @@ public class FindBuddyActivity extends AppCompatActivity
         removeButton = (Button) findViewById(R.id.removeButton);
         displayLocalUsers = (TextView) findViewById(R.id.activeUserTextView);
         localUsersListView = (ListView) findViewById(R.id.localUsers);
+
+        textViews= (TextView) findViewById(R.id.textViews);
 
         //Remove button to Invisible
         removeButton.setVisibility(View.INVISIBLE);
@@ -116,23 +122,24 @@ public class FindBuddyActivity extends AppCompatActivity
             }
         });
 
-        firebaseListAdapter = new
-                FirebaseListAdapter<UserLocation>(this, UserLocation.class, android.R.layout
-                        .simple_list_item_1, myRef) {
+        final List<UserLocation> list = new ArrayList<>();
+
+        firebaseListAdapter = new FirebaseListAdapter<UserLocation>(this,
+                UserLocation.class, android.R.layout.simple_list_item_1, myRef) {
 
                     @Override
                     protected void populateView(View v, UserLocation model, int position) {
 
-                        v = View.inflate(getApplicationContext(), R.layout.location_item_list, null);
-                        email = (TextView) v.findViewById(R.id.email);
-                        city = (TextView) v.findViewById(R.id.city);
+                        v = View.inflate(getApplicationContext(), R.layout.location_item_list,
+                                null);
+                        TextView email = (TextView) v.findViewById(R.id.email);
+                        TextView city = (TextView) v.findViewById(R.id.city);
 
-                        //email.setText(usersNearYou.get(position).getEmail());
-                        //city.setText(usersNearYou.get(position).getCity());
                         email.setText(model.getEmail());
-                        //Log.d("DISPLAY EMAIL", model.getEmail());
+                        Log.d("DISPLAY EMAIL", model.getEmail());
                         city.setText(model.getCity());
-                        //Log.d("DISPLAY CITY", model.getCity());
+                        Log.d("DISPLAY CITY", model.getCity());
+
                     }
                 };
         localUsersListView.setAdapter(firebaseListAdapter);

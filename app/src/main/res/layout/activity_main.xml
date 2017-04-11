@@ -26,10 +26,19 @@
         android:onClick="findBuddyButtonClicked"/>
 
     <Button
-        android:id="@+id/signOutButton"
+        android:id="@+id/workoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/findBuddyButton"
+        android:text="Create Workout(s)"
+        android:gravity="center"
+        android:onClick="workoutButtonClicked"/>
+
+    <Button
+        android:id="@+id/signOutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/workoutButton"
         android:text="Sign Out"
         android:gravity="center"
         android:onClick="signOutButtonClicked"/>
