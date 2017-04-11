@@ -83,6 +83,7 @@ public class WorkoutActivity extends AppCompatActivity {
         retrieveExercises();
         showListView();
 
+        // Body Type List View item click event listener
         bodyTypeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -117,6 +118,9 @@ public class WorkoutActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Alert Dialog for entering workout name
+     */
     private void requestWorkoutName() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Enter Workout Name");
@@ -162,26 +166,22 @@ public class WorkoutActivity extends AppCompatActivity {
                     exercise.setExercise_name(ds.getValue(Exercise.class).getExercise_name());
                     exercise.setBody_type(ds.getValue(Exercise.class).getBody_type());
                     exercise.setExercise_type(ds.getValue(Exercise.class).getExercise_type());
-                    Log.d("BODY_TYPE", exercise.getBody_type());
 
                     if(exercise.getBody_type().equals("Chest")) {
                         chestExercises.add(exercise);
-                        Log.d("CHEST COUNT", Integer.toString(chestExercises.size()));
                     }
                     else if(exercise.getBody_type().equals("Arms")) {
                         armsExercises.add(exercise);
-                        Log.d("ARMS COUNT", Integer.toString(armsExercises.size()));
                     }
                     else if(exercise.getBody_type().equals("Legs")) {
                         legsExercises.add(exercise);
-                        Log.d("LEGS COUNT", Integer.toString(legsExercises.size()));
                     } else {
                         backExercises.add(exercise);
-                        Log.d("BACK COUNT", Integer.toString(backExercises.size()));
                     }
                 }
             }
 
+            // Could not connect to database
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.d("DATABASE ERROR", String.valueOf(databaseError));
@@ -189,20 +189,23 @@ public class WorkoutActivity extends AppCompatActivity {
         });
     }
 
+    // Will show list of body types
     private void showListView() {
         ArrayAdapter<String> itemsAdapter =
                 new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, bodyTypes);
         bodyTypeListView.setAdapter(itemsAdapter);
     }
 
+    /**
+     * Click event when save workout button is clicked
+     * @param view
+     */
     public void saveWorkoutButtonClicked(View view) {
         DatabaseReference ref;
         ref = mFirebaseDatabase.getReference().child("workout");
 
-        Calendar c = Calendar.getInstance();
-        System.out.println("Current time => " + c.getTime());
-
         // Grab date
+        Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("MMM-dd-yyyy");
         String formattedDate = df.format(c.getTime());
 
