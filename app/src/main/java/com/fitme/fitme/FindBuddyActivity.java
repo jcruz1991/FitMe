@@ -79,7 +79,7 @@ public class FindBuddyActivity extends AppCompatActivity
 
         // Firebase
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mFirebaseDatabase.getReference().child("location");
+        mDatabaseReference = mFirebaseDatabase.getReference().child("locations");
         mFirebaseAuth = FirebaseAuth.getInstance();
 
         // Gets logged in users unique ID
