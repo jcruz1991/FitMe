@@ -20,7 +20,8 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/activeUserTextView"
         android:text="Search For Workout Buddy"
-        android:onClick="searchButtonClicked"/>
+        android:onClick="searchButtonClicked"
+        style="@style/Base.TextAppearance.AppCompat.Widget.Button"/>
 
     <Button
         android:id="@+id/removeButton"
@@ -29,21 +30,24 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/activeUserTextView"
         android:text="Remove Location"
-        android:onClick="removeLocationClicked"/>
+        android:onClick="removeLocationClicked"
+        style="@style/Base.TextAppearance.AppCompat.Widget.Button.Borderless.Colored"/>
 
     <ListView
         android:id="@+id/workoutL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/removeButton"
-        android:visibility="visible"></ListView>
+        android:visibility="visible">
+    </ListView>
 
     <ListView
         android:id="@+id/localUsers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/removeButton"
-        android:visibility="invisible"></ListView>
+        android:visibility="invisible">
+    </ListView>
 
 
 

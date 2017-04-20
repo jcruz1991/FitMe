@@ -215,16 +215,14 @@ public class FindBuddyActivity extends AppCompatActivity
 
         searchButton.setVisibility(View.INVISIBLE);
         removeButton.setVisibility(View.VISIBLE);
-        //for(int i = 0; i< getCloseUser.size(); i ++)
-        // {
-        //    Log.d("BYE!!@", "BYE:  " + getCloseUser.get(i));
-        // }
+    }
 
-        //Intent intent = new Intent(FindBuddyActivity.this, ShowUserActivity.class);
-        //intent.putExtra("chosenworkname", chosenWorkout);
-        //intent.putStringArrayListExtra("Llist",getCloseUser);
-        // Log.d("BBEEEEEEEE", "HELLO: " );
-        //startActivity(intent);
+    /**
+     * Click Event when remove location button is clicked
+     * @param view
+     */
+    public void removeLocationClicked(View view) {
+        mDatabaseReference.child(userID).removeValue();
     }
 
     private void retrieveUserLocation() {
