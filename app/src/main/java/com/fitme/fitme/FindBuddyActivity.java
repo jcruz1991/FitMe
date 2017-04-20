@@ -206,9 +206,7 @@ public class FindBuddyActivity extends AppCompatActivity
      */
     public void searchButtonClicked(View view) {
         // Get User Location and add it into the database
-
         retrieveUserLocation();
-        //Log.d("BYE!!@", "BYE:  " + getCloseUser.size());
 
         listView.setVisibility(View.INVISIBLE);
         localUsersListView.setVisibility(View.VISIBLE);
@@ -223,6 +221,12 @@ public class FindBuddyActivity extends AppCompatActivity
      */
     public void removeLocationClicked(View view) {
         mDatabaseReference.child(userID).removeValue();
+
+        removeButton.setVisibility(View.INVISIBLE);
+        searchButton.setVisibility(View.VISIBLE);
+
+        localUsersListView.setVisibility(View.INVISIBLE);
+        listView.setVisibility(View.VISIBLE);
     }
 
     private void retrieveUserLocation() {
