@@ -31,17 +31,20 @@
         android:text="Remove Location"
         android:onClick="removeLocationClicked"/>
 
-    <TextView
-        android:id="@+id/textViews"
-        android:layout_width="wrap_content"
+    <ListView
+        android:id="@+id/workoutL"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:layout_below="@+id/removeButton"/>
+        android:layout_below="@+id/removeButton"
+        android:visibility="visible"></ListView>
 
     <ListView
         android:id="@+id/localUsers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textViews">
-    </ListView>
+        android:layout_below="@+id/removeButton"
+        android:visibility="invisible"></ListView>
+
+
+
 </RelativeLayout>

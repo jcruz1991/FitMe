@@ -3,6 +3,7 @@ package com.fitme.fitme.workout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,11 +27,13 @@ public class BodyTypeActivity extends AppCompatActivity {
     private List<Exercise> machineExcercises;
     private List<Exercise> list;
 
+    private ArrayList<String> passedList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_body_type);
-        
+
         bodyTypeListView = (ListView) findViewById(R.id.bodyTypeListView);
 
         bodyExcercises = new ArrayList<>();
@@ -38,7 +41,13 @@ public class BodyTypeActivity extends AppCompatActivity {
         cableExcercises = new ArrayList<>();
         machineExcercises = new ArrayList<>();
 
+
         list = (ArrayList<Exercise>) getIntent().getSerializableExtra("mylist");
+        passedList =getIntent().getStringArrayListExtra("wlist");
+        for (int f =0; f < passedList.size(); f++)
+        {
+            Log.v("ASASAS", "LIST: " + passedList.get(f));
+        }
 
         for(int i = 0; i < list.size(); i++) {
             if(list.get(i).getExercise_type().equals("Body")) {
@@ -54,7 +63,7 @@ public class BodyTypeActivity extends AppCompatActivity {
                 machineExcercises.add(list.get(i));
             }
         }
-        
+
         showBodyTypesListView();
 
         bodyTypeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -65,24 +74,28 @@ public class BodyTypeActivity extends AppCompatActivity {
                         Intent bodyIntent = new Intent(getApplicationContext(),
                                 DisplayExercisesActivity.class);
                         bodyIntent.putExtra("mylist", (Serializable) bodyExcercises);
+                        bodyIntent.putStringArrayListExtra("wlist",passedList);
                         startActivity(bodyIntent);
                         break;
                     case 1:
                         Intent freeweightIntent = new Intent(getApplicationContext(),
                                 DisplayExercisesActivity.class);
                         freeweightIntent.putExtra("mylist", (Serializable) freeweightExcercises);
+                        freeweightIntent.putStringArrayListExtra("wlist",passedList);
                         startActivity(freeweightIntent);
                         break;
                     case 2:
                         Intent cableIntent = new Intent(getApplicationContext(),
                                 DisplayExercisesActivity.class);
                         cableIntent.putExtra("mylist", (Serializable) cableExcercises);
+                        cableIntent.putStringArrayListExtra("wlist",passedList);
                         startActivity(cableIntent);
                         break;
                     case 3:
                         Intent machineIntent = new Intent(getApplicationContext(),
                                 DisplayExercisesActivity.class);
                         machineIntent.putExtra("mylist", (Serializable) machineExcercises);
+                        machineIntent.putStringArrayListExtra("wlist",passedList);
                         startActivity(machineIntent);
                         break;
                 }

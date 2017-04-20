@@ -24,23 +24,54 @@
         android:text="Find Buddy"
         android:gravity="center"
         android:onClick="findBuddyButtonClicked"/>
-
     <Button
         android:id="@+id/workoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/findBuddyButton"
         android:text="Create Workout(s)"
         android:gravity="center"
-        android:onClick="workoutButtonClicked"/>
+        android:onClick="workoutButtonClicked"
+        android:layout_below="@+id/btnWorkout"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="33dp" />
 
     <Button
         android:id="@+id/signOutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/workoutButton"
+        android:layout_below="@+id/findBuddyButton"
         android:text="Sign Out"
         android:gravity="center"
         android:onClick="signOutButtonClicked"/>
+
+    <Button
+        android:id="@+id/btnWorkout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/signOutButton"
+        android:layout_marginTop="18dp"
+        android:text="Create"
+        android:onClick="CreateButtonClicked"/>
+
+    <Button
+        android:id="@+id/btnadd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/findBuddyButton"
+        android:layout_below="@+id/workoutButton"
+        android:layout_marginTop="47dp"
+        android:text="Add"
+        android:onClick="addButtonClicked"/>
+
+    <Button
+        android:id="@+id/btnShow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/btnadd"
+        android:layout_below="@+id/btnadd"
+        android:layout_marginTop="28dp"
+        android:text="Display Workout"
+        android:onClick="ShowWorkoutButtonClicked"/>
 
 </RelativeLayout>

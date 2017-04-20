@@ -6,19 +6,11 @@
     android:layout_height="match_parent"
     tools:context="com.fitme.fitme.workout.WorkoutActivity">
 
+
     <ListView
         android:id="@+id/bodyTypeListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
     </ListView>
-
-    <Button
-        android:id="@+id/saveWorkoutButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save Workout"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:onClick="saveWorkoutButtonClicked"/>
 
 </RelativeLayout>

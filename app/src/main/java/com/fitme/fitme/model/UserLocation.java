@@ -3,32 +3,41 @@ package com.fitme.fitme.model;
 
 public class UserLocation {
     int id;
-    String email;
+    String name;
     Double latitude;
     Double longitude;
     String city;
+    String user_workout;
+    String user_category;
 
 
     public UserLocation() {
     }
 
-    public UserLocation(String email, Double latitude, Double longitude, String city) {
-        this.email = email;
+    public UserLocation(int id, String name, Double latitude, Double longitude, String city, String user_workout, String user_category) {
+        this.id = id;
+        this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
         this.city = city;
+        this.user_workout = user_workout;
+        this.user_category = user_category;
     }
 
-    public String getEmail() {
-        return email;
+    public int getId() {
+        return id;
     }
 
-    public int getId() { return id; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public void setId(int id) { this.id = id; }
+    public String getName() {
+        return name;
+    }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Double getLatitude() {
@@ -53,5 +62,21 @@ public class UserLocation {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getUser_workout() {
+        return user_workout;
+    }
+
+    public void setUser_workout(String user_workout) {
+        this.user_workout = user_workout;
+    }
+
+    public String getUser_category() {
+        return user_category;
+    }
+
+    public void setUser_category(String user_category) {
+        this.user_category = user_category;
     }
 }

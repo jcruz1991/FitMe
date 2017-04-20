@@ -105,7 +105,7 @@ public class ChatActivity extends AppCompatActivity {
         textMessage = messageEditText.getText().toString();
 
         if(checkMessageField()) {
-            Message message = new Message(user.getEmail(), textMessage);
+            Message message = new Message(user.getDisplayName(), textMessage);
             myRef.push().setValue(message);
             messageEditText.setText("");
 

@@ -1,9 +1,11 @@
 package com.fitme.fitme.workout;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,8 +24,11 @@ public class DisplayExercisesActivity extends AppCompatActivity {
     private ListView exercisesListView;
     private List<Exercise> list;
     private List<String> exercises;
+    private ArrayList<String> gotList;
 
     private String exerciseDescription;
+    private int itemPosition;
+    private String exercisename;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +36,12 @@ public class DisplayExercisesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_display_exercises);
 
         list = (ArrayList<Exercise>) getIntent().getSerializableExtra("mylist");
+        gotList =getIntent().getStringArrayListExtra("wlist");
+
+        for (int f =0; f < gotList.size(); f++)
+        {
+            Log.v("ASASAS", "LIST: " + gotList.get(f));
+        }
         exercises = new ArrayList<>();
 
         for(int i = 0; i < list.size(); i++) {
@@ -44,6 +55,7 @@ public class DisplayExercisesActivity extends AppCompatActivity {
         exercisesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                itemPosition = position;
                 displayDialogDescription();
             }
         });
@@ -64,8 +76,19 @@ public class DisplayExercisesActivity extends AppCompatActivity {
                 if(exerciseDescription.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please Enter Workout Description",
                             Toast
-                            .LENGTH_SHORT).show();
+                                    .LENGTH_SHORT).show();
                     displayDialogDescription();
+                }
+                else
+                {
+                    exercisename= exercises.get(itemPosition);
+                    gotList.add(exercisename);
+                    gotList.add(exerciseDescription);
+                    Intent intent = new Intent(DisplayExercisesActivity.this, WorkoutActivity.class);
+                    intent.putStringArrayListExtra("wlist",gotList);
+                    startActivity(intent);
+
+
                 }
             }
         });
@@ -74,7 +97,6 @@ public class DisplayExercisesActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
-                displayDialogDescription();
             }
         });
         builder.show();

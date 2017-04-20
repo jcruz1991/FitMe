@@ -3,17 +3,15 @@ package com.fitme.fitme.workout;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import com.fitme.fitme.MainActivity;
 import com.fitme.fitme.R;
 import com.fitme.fitme.model.Exercise;
 import com.fitme.fitme.model.Workout;
@@ -26,9 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class WorkoutActivity extends AppCompatActivity {
@@ -38,11 +34,11 @@ public class WorkoutActivity extends AppCompatActivity {
     public Workout workout;
 
     private ListView bodyTypeListView;
-    private Button saveWorkoutButton;
-
+    private ListView list;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     private DatabaseReference myRef;
+    private DatabaseReference myWorkoutRef;
     private FirebaseUser user;
 
     private String[] bodyTypes = {"Chest", "Back", "Arms", "Legs"};
@@ -53,38 +49,55 @@ public class WorkoutActivity extends AppCompatActivity {
     private List<Exercise> legsExercises;
     private List<Exercise> backExercises;
 
+
+    private ArrayList<String> mywList;
+    Button bDone;
+    Button bCancel;
+    private String wCategory;
+    private String wDate;
+    private String wName;
+    private String edesc;
+    private String ename;
+    private String usermail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_workout);
+        //setContentView(R.layout.activity_workout);
+        setContentView(R.layout.start_workout);
 
+        mywList = getIntent().getStringArrayListExtra("wlist");
         // Get Firebase Instances and Refrences
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference().child("exercises");
-        // Gets logged in users unique ID
-        user = mAuth.getCurrentUser();
+        myWorkoutRef = mFirebaseDatabase.getReference().child("workouts");
 
         // Get current user
         user = FirebaseAuth.getInstance().getCurrentUser();
+        usermail = user.getEmail();
 
-        saveWorkoutButton = (Button) findViewById(R.id.saveWorkoutButton);
-        bodyTypeListView = (ListView) findViewById(R.id.bodyTypeListView);
+        //bodyTypeListView = (ListView) findViewById(R.id.bodyTypeListView);
+        list = (ListView) findViewById(R.id.list);
+        bDone = (Button)findViewById(R.id.bDone);
+        bCancel = (Button)findViewById(R.id.bCancel);
 
+        for (int f =0; f < mywList.size(); f++)
+        {
+            Log.v("ASASAS", "LIST: " + mywList.get(f));
+        }
         workout = new Workout();
-        workout.setUser_name(user.getEmail());
 
         chestExercises = new ArrayList<>();
         armsExercises = new ArrayList<>();
         legsExercises = new ArrayList<>();
         backExercises = new ArrayList<>();
 
-        requestWorkoutName();
+        //requestWorkoutName();
         retrieveExercises();
         showListView();
 
-        // Body Type List View item click event listener
-        bodyTypeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
@@ -92,65 +105,82 @@ public class WorkoutActivity extends AppCompatActivity {
                         Intent chestIntent = new Intent(getApplicationContext(),BodyTypeActivity
                                 .class);
                         chestIntent.putExtra("mylist", (Serializable) chestExercises);
+                        chestIntent.putStringArrayListExtra("wlist",mywList);
                         startActivity(chestIntent);
                         break;
                     case 1:
                         Intent backIntent = new Intent(getApplicationContext(),BodyTypeActivity
                                 .class);
                         backIntent.putExtra("mylist", (Serializable) backExercises);
+                        backIntent.putStringArrayListExtra("wlist",mywList);
                         startActivity(backIntent);
                         break;
                     case 2:
                         Intent armsIntent = new Intent(getApplicationContext(),BodyTypeActivity
                                 .class);
                         armsIntent.putExtra("mylist", (Serializable) armsExercises);
+                        armsIntent.putStringArrayListExtra("wlist",mywList);
                         startActivity(armsIntent);
                         break;
                     case 3:
                         Intent legsIntent = new Intent(getApplicationContext(),BodyTypeActivity
                                 .class);
                         legsIntent.putExtra("mylist", (Serializable) legsExercises);
+                        legsIntent.putStringArrayListExtra("wlist",mywList);
                         startActivity(legsIntent);
                         break;
                 }
-
-            }
-        });
-    }
-
-    /**
-     * Alert Dialog for entering workout name
-     */
-    private void requestWorkoutName() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Enter Workout Name");
-
-        final EditText inputWorkoutNameEditText = new EditText(this);
-
-        builder.setView(inputWorkoutNameEditText);
-        builder.setPositiveButton("Create", new DialogInterface.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                workoutName = inputWorkoutNameEditText.getText().toString();
-
-                if(workoutName.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Please Enter Workout Name", Toast
-                            .LENGTH_SHORT).show();
-                    requestWorkoutName();
-                }
-
-                workout.setW_name(workoutName);
             }
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                requestWorkoutName();
+        bDone.setOnClickListener( new View.OnClickListener(){
+            public void onClick(View V){
+                //save the list into database
+                final CharSequence[] items = {"Muscle Gain", "Swimming", "Running", "Diet", "Other"};
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(WorkoutActivity.this);
+                builder.setTitle("Choose a category for the workout");
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        // Do something with the selection
+                        if(item == 0)
+                        {
+                            wCategory = "Muscle Gain";
+                            mywList.add(wCategory);
+                            insertWorkout();
+                        }
+                        else if (item == 1)
+                        {
+                            wCategory = "Swimming";
+                            mywList.add(wCategory);
+                            insertWorkout();
+                        }
+                        else if (item == 2)
+                        {
+                            wCategory = "Running";
+                            mywList.add(wCategory);
+                            insertWorkout();
+                        }
+                        else if (item == 3)
+                        {
+                            wCategory = "Diet";
+                            mywList.add(wCategory);
+                            insertWorkout();
+                        }
+                        else
+                        {
+                            wCategory = "Other";
+                            mywList.add(wCategory);
+                            insertWorkout();
+                        }
+
+
+                    }
+                });
+                android.app.AlertDialog alert = builder.create();
+                alert.show();
+
             }
         });
-        builder.show();
     }
 
     /**
@@ -166,22 +196,26 @@ public class WorkoutActivity extends AppCompatActivity {
                     exercise.setExercise_name(ds.getValue(Exercise.class).getExercise_name());
                     exercise.setBody_type(ds.getValue(Exercise.class).getBody_type());
                     exercise.setExercise_type(ds.getValue(Exercise.class).getExercise_type());
+                    Log.d("BODY_TYPE", exercise.getBody_type());
 
                     if(exercise.getBody_type().equals("Chest")) {
                         chestExercises.add(exercise);
+                        Log.d("CHEST COUNT", Integer.toString(chestExercises.size()));
                     }
                     else if(exercise.getBody_type().equals("Arms")) {
                         armsExercises.add(exercise);
+                        Log.d("ARMS COUNT", Integer.toString(armsExercises.size()));
                     }
                     else if(exercise.getBody_type().equals("Legs")) {
                         legsExercises.add(exercise);
+                        Log.d("LEGS COUNT", Integer.toString(legsExercises.size()));
                     } else {
                         backExercises.add(exercise);
+                        Log.d("BACK COUNT", Integer.toString(backExercises.size()));
                     }
                 }
             }
 
-            // Could not connect to database
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.d("DATABASE ERROR", String.valueOf(databaseError));
@@ -189,28 +223,37 @@ public class WorkoutActivity extends AppCompatActivity {
         });
     }
 
-    // Will show list of body types
     private void showListView() {
         ArrayAdapter<String> itemsAdapter =
                 new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, bodyTypes);
-        bodyTypeListView.setAdapter(itemsAdapter);
+        list.setAdapter(itemsAdapter);
     }
 
-    /**
-     * Click event when save workout button is clicked
-     * @param view
-     */
-    public void saveWorkoutButtonClicked(View view) {
-        DatabaseReference ref;
-        ref = mFirebaseDatabase.getReference().child("workout");
+    public void btnCancelButtonClicked(View view) {
+        Intent intent = new Intent(WorkoutActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
 
-        // Grab date
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("MMM-dd-yyyy");
-        String formattedDate = df.format(c.getTime());
 
-        workout.setW_date(formattedDate);
+    //Insert the workout into the firebase
+    private void insertWorkout(){
+        //Get the workout name and workout date in the list first
+        wName = mywList.get(0);
+        wDate = mywList.get(1);
+        //Get the exercise name and description in the for loop and save
+        //the data into firebase
+        for (int i =2; i<mywList.size()-1;++i)
+        {
+            ename = mywList.get(i);
+            edesc = mywList.get(i+1);
+            wCategory = mywList.get(mywList.size()-1);
 
-        ref.push().setValue(workout);
+            Workout ex = new Workout(wName, wCategory, usermail, ename, edesc, wDate);
+            myWorkoutRef.push().setValue(ex);
+            i = i+1;
+
+        }
+        Intent intent = new Intent(WorkoutActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }

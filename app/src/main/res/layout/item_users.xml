@@ -4,20 +4,31 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+
+
     <TextView
-        android:id="@+id/messageTextView"
+        android:id="@+id/itemUserNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Message" />
+        android:text="Name" />
 
     <TextView
-        android:id="@+id/nameTextView"
+        android:id="@+id/itemWorkoutTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:textAppearance="?android:attr/textAppearanceListItem"
+        android:text="Workout" />
+
+    <TextView
+        android:id="@+id/itemCityTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Name" />
+        android:text="City" />
+
 
 </LinearLayout>
