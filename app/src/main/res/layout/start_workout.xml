@@ -27,7 +27,7 @@
         <Button
             android:id="@+id/bCancel"
             android:text="Cancel"
-            android:background="@android:color/holo_red_light"
+            android:background="@android:color/holo_red_dark"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:layout_width="0dp"
@@ -38,7 +38,7 @@
         <Button
             android:id="@+id/bDone"
             android:text="Save"
-            android:background="@color/wallet_holo_blue_light"
+            android:background="@android:color/holo_green_dark"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:layout_width="0dp"
