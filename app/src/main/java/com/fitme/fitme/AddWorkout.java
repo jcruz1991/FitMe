@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.fitme.fitme.model.Exercise;
 import com.fitme.fitme.model.Workout;
@@ -47,17 +48,20 @@ public class AddWorkout extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                exerciseName.getText().toString().trim();
-                exerciseType.getText().toString().trim();
-                bodyType.getText().toString().trim();
-                Exercise exercise = new Exercise(exerciseName.getText().toString().trim(),
-                        bodyType.getText().toString().trim(), exerciseType.getText().toString().trim());
-                myRef.push().setValue(exercise);
+                String exName = exerciseName.getText().toString().trim();
+                String exType = exerciseType.getText().toString().trim();
+                String bdType = bodyType.getText().toString().trim();
 
-                exerciseName.setText(null);
-                exerciseType.setText(null);
-                exerciseName.setText(null);
-                bodyType.setText(null);
+                if(exName.isEmpty() || exType.isEmpty() || bdType.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "All fields must have text", Toast.LENGTH_SHORT);
+                } else {
+                    Exercise exercise = new Exercise(exName, bdType, exType);
+                    myRef.push().setValue(exercise);
+
+                    exerciseName.setText(null);
+                    exerciseType.setText(null);
+                    bodyType.setText(null);
+                }
             }
         });
     }
