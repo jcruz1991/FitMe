@@ -1,10 +1,13 @@
 package com.fitme.fitme;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
@@ -71,8 +74,27 @@ public class MainActivity extends AppCompatActivity {
      * @param view
      */
     public void findBuddyButtonClicked(View view) {
-        Intent intent = new Intent(MainActivity.this, FindBuddyActivity.class);
-        startActivity(intent);
+        final Button button = (Button) findViewById(R.id.findBuddyButton);
+
+        button.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+                    button.setBackgroundColor(Color.RED);
+                    return true;
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+
+                    button.setBackgroundColor(getResources().getColor(android.R.color.holo_purple));
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        //Intent intent = new Intent(MainActivity.this, FindBuddyActivity.class);
+        //startActivity(intent);
     }
 
     /**

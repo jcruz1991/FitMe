@@ -5,54 +5,118 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/authui_colorPrimary"
     tools:context="com.fitme.fitme.MainActivity">
 
-    <Button
-        android:id="@+id/findBuddyButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/userTextView"
-        android:text="Find Buddy"
-        android:gravity="center"
-        android:onClick="findBuddyButtonClicked"/>
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/signOutButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/findBuddyButton"
-        android:text="Sign Out"
-        android:gravity="center"
-        android:onClick="signOutButtonClicked"/>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
 
-    <Button
-        android:id="@+id/btnWorkout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/signOutButton"
-        android:layout_marginTop="18dp"
-        android:text="Create Workout(s)"
-        android:onClick="CreateButtonClicked"/>
+        <Button
+            android:id="@+id/btnWorkout"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@android:color/holo_blue_bright"
+            android:onClick="CreateButtonClicked"
+            android:text="Create Workout(s)"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="20dp" />
 
-    <Button
-        android:id="@+id/btnadd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/findBuddyButton"
-        android:layout_below="@+id/btnWorkout"
-        android:layout_marginTop="47dp"
-        android:text="Add"
-        android:onClick="addButtonClicked"/>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
 
-    <Button
-        android:id="@+id/btnShow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/btnadd"
-        android:layout_below="@+id/btnadd"
-        android:layout_marginTop="28dp"
-        android:text="Display Workout"
-        android:onClick="ShowWorkoutButtonClicked"/>
+        <Button
+            android:id="@+id/findBuddyButton"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/userTextView"
+            android:layout_weight="1"
+            android:background="@android:color/holo_blue_light"
+            android:gravity="center"
+            android:onClick="findBuddyButtonClicked"
+            android:text="Find Buddy"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="20dp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
+
+        <Button
+            android:id="@+id/btnShow"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@android:color/holo_green_light"
+            android:onClick="ShowWorkoutButtonClicked"
+            android:text="Display Workout"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+
+            android:textSize="20dp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
+
+        <Button
+            android:id="@+id/btnadd"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@android:color/holo_orange_light"
+            android:onClick="addButtonClicked"
+            android:text="Add"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="20dp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
+
+        <Button
+            android:id="@+id/signOutButton"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/findBuddyButton"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@android:color/holo_red_light"
+            android:gravity="center"
+            android:onClick="signOutButtonClicked"
+            android:text="Sign Out"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="20dp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
+
+    </LinearLayout>
 
 </RelativeLayout>

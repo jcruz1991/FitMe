@@ -20,11 +20,12 @@ public class BodyTypeActivity extends AppCompatActivity {
 
     private ListView bodyTypeListView;
 
-    private String[] bodyTypes = {"Body", "Freeweight", "Cable", "Machine"};
+    private String[] bodyTypes = {"Body", "Freeweight", "Cable", "Machine", "Other"};
     private List<Exercise> bodyExcercises;
     private List<Exercise> freeweightExcercises;
     private List<Exercise> cableExcercises;
     private List<Exercise> machineExcercises;
+    private List<Exercise> otherExercises;
     private List<Exercise> list;
 
     private ArrayList<String> passedList;
@@ -40,6 +41,7 @@ public class BodyTypeActivity extends AppCompatActivity {
         freeweightExcercises = new ArrayList<>();
         cableExcercises = new ArrayList<>();
         machineExcercises = new ArrayList<>();
+        otherExercises = new ArrayList<>();
 
 
         list = (ArrayList<Exercise>) getIntent().getSerializableExtra("mylist");
@@ -59,8 +61,11 @@ public class BodyTypeActivity extends AppCompatActivity {
             else if(list.get(i).getExercise_type().equals("Cable")) {
                 cableExcercises.add(list.get(i));
             }
-            else {
+            else if(list.get(i).getExercise_type().equals("Machine")) {
                 machineExcercises.add(list.get(i));
+            }
+            else {
+                otherExercises.add(list.get(i));
             }
         }
 
@@ -98,6 +103,11 @@ public class BodyTypeActivity extends AppCompatActivity {
                         machineIntent.putStringArrayListExtra("wlist",passedList);
                         startActivity(machineIntent);
                         break;
+                    case 4:
+                        Intent otherIntent = new Intent(getApplicationContext(), DisplayExercisesActivity.class);
+                        otherIntent.putExtra("mylist", (Serializable) otherExercises);
+                        otherIntent.putStringArrayListExtra("wlist",passedList);
+                        startActivity(otherIntent);
                 }
             }
         });
