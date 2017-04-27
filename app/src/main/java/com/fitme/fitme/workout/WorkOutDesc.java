@@ -2,8 +2,10 @@ package com.fitme.fitme.workout;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -112,6 +114,23 @@ public class WorkOutDesc extends Activity {
         btnUse.setOnClickListener( new View.OnClickListener(){
 
             public void onClick(View V){
+
+                btnUse.setOnTouchListener(new View.OnTouchListener() {
+
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+                            btnUse.setBackgroundColor(Color.RED);
+                            return true;
+                        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+
+                            btnUse.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
+                            return true;
+                        }
+                        return false;
+                    }
+                });
 
                 Intent intent = new Intent(WorkOutDesc.this, FindBuddyActivity.class);
                 intent.putExtra("workname", tvWname.getText());
