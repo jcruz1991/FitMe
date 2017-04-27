@@ -10,51 +10,27 @@
         android:text="Add" />
 
     <EditText
-        android:id="@+id/etDesc"
+        android:id="@+id/bodyTypeEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name" />
+        android:hint="Body Type" />
 
     <EditText
-        android:id="@+id/etwname"
+        android:id="@+id/exerciseNameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name" />
+        android:hint="Exercise Name" />
 
     <EditText
-        android:id="@+id/etExercise"
+        android:id="@+id/exerciseTypeEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name" />
-
-    <EditText
-        android:id="@+id/etCate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
-
-    <EditText
-        android:id="@+id/etdate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
-
-    <EditText
-        android:id="@+id/etuser"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:hint="Exercise Type"/>
 
 </LinearLayout>

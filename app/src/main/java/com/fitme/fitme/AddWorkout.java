@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.fitme.fitme.model.Exercise;
 import com.fitme.fitme.model.Workout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -14,7 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class AddWorkout extends AppCompatActivity {
 
-    private EditText inputdate, inputexerciseDesc, inputexercise, inputwname, inputcategory, inputuser;
+    private EditText exerciseName, exerciseType, bodyType;
     private Button btnAdd;
     private DatabaseReference databaseReference;
 
@@ -33,14 +34,12 @@ public class AddWorkout extends AppCompatActivity {
         setContentView(R.layout.add_exercise);
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = mFirebaseDatabase.getReference().child("workouts");
+        myRef = mFirebaseDatabase.getReference().child("exercises");
 
-        inputexerciseDesc= (EditText) findViewById(R.id.etDesc);//
-        inputwname = (EditText) findViewById(R.id.etwname);
-        inputexercise = (EditText) findViewById(R.id.etExercise);
-        inputcategory = (EditText) findViewById(R.id.etCate);//
-        inputdate = (EditText) findViewById(R.id.etdate);//
-        inputuser= (EditText) findViewById(R.id.etuser);
+        exerciseName = (EditText) findViewById(R.id.exerciseNameEditText);
+        exerciseType = (EditText) findViewById(R.id.exerciseTypeEditText);
+        bodyType = (EditText) findViewById(R.id.bodyTypeEditText);
+
         user = FirebaseAuth.getInstance().getCurrentUser();
         usermail = user.getEmail();
 
@@ -48,11 +47,17 @@ public class AddWorkout extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Workout ex = new Workout(inputwname.getText().toString(),inputcategory.getText().toString(),
-                       usermail,inputexercise.getText().toString(),
-                        inputexerciseDesc.getText().toString(), inputdate.getText().toString());
-                        myRef.push().setValue(ex);
+                exerciseName.getText().toString().trim();
+                exerciseType.getText().toString().trim();
+                bodyType.getText().toString().trim();
+                Exercise exercise = new Exercise(exerciseName.getText().toString().trim(),
+                        bodyType.getText().toString().trim(), exerciseType.getText().toString().trim());
+                myRef.push().setValue(exercise);
 
+                exerciseName.setText(null);
+                exerciseType.setText(null);
+                exerciseName.setText(null);
+                bodyType.setText(null);
             }
         });
     }

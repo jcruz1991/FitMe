@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addButtonClicked(View view) {
-        Intent intent = new Intent(MainActivity.this, ShowUserActivity.class);
+        Intent intent = new Intent(MainActivity.this, AddWorkout.class);
         startActivity(intent);
     }
     public void ShowWorkoutButtonClicked(View view) {

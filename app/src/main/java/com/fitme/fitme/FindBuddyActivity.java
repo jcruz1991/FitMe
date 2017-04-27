@@ -225,6 +225,8 @@ public class FindBuddyActivity extends AppCompatActivity
         removeButton.setVisibility(View.INVISIBLE);
         searchButton.setVisibility(View.VISIBLE);
 
+        mAdapter.cleanup();
+
         localUsersListView.setVisibility(View.INVISIBLE);
         listView.setVisibility(View.VISIBLE);
     }
@@ -280,8 +282,6 @@ public class FindBuddyActivity extends AppCompatActivity
                             + user.getCity());
                     ((TextView) view.findViewById(android.R.id.text2)).setText(user.getUser_workout()
                             + ", " + user.getUser_category());
-
-
                 }
 
             }
