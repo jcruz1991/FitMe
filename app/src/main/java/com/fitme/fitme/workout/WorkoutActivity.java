@@ -215,7 +215,7 @@ public class WorkoutActivity extends AppCompatActivity {
                         armsExercises.add(exercise);
                         Log.d("ARMS COUNT", Integer.toString(armsExercises.size()));
                     }
-                    else if(exercise.getExercise_type().equals("Abs")) {
+                    else if(exercise.getBody_type().equals("Abs")) {
                         absExercises.add(exercise);
                         Log.d("ABS COUNT", Integer.toString(absExercises.size()));
                     }
@@ -223,7 +223,7 @@ public class WorkoutActivity extends AppCompatActivity {
                         legsExercises.add(exercise);
                         Log.d("LEGS COUNT", Integer.toString(legsExercises.size()));
                     }
-                    else if(exercise.getExercise_type().equals("Back")) {
+                    else if(exercise.getBody_type().equals("Back")) {
                         backExercises.add(exercise);
                         Log.d("BACK COUNT", Integer.toString(backExercises.size()));
                     }
