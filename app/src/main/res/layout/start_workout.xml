@@ -32,6 +32,8 @@
             android:textColor="@color/white"
             android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:onClick="btnCancelButtonClicked">
         </Button>
@@ -43,6 +45,8 @@
             android:textColor="@color/white"
             android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="1">
         </Button>
 

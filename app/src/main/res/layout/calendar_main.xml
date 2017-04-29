@@ -18,7 +18,6 @@
         android:id="@+id/calendar_view"
         xmlns:calendarNS="http://schemas.android.com/apk/res/com.fitme.fitme"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivityForResult(
                             AuthUI.getInstance()
                                     .createSignInIntentBuilder()
+                                    .setTheme(R.style.GreenTheme)
                                     .setIsSmartLockEnabled(false)
                                     .setProviders(
                                             AuthUI.EMAIL_PROVIDER,
@@ -114,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
      */
     public void CreateButtonClicked(View view) {
         Intent intent = new Intent(MainActivity.this, Calendar.class);
-        //Intent intent = new Intent(MainActivity.this, showworkout.class);
         startActivity(intent);
     }
     public void workoutButtonClicked(View view) {

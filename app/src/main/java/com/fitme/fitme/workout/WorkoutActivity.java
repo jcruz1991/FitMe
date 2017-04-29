@@ -41,11 +41,12 @@ public class WorkoutActivity extends AppCompatActivity {
     private DatabaseReference myWorkoutRef;
     private FirebaseUser user;
 
-    private String[] bodyTypes = {"Chest", "Back", "Arms", "Legs"};
+    private String[] bodyTypes = {"Chest", "Back", "Arms", "Abs", "Legs"};
     private String workoutName;
 
     private List<Exercise> chestExercises;
     private List<Exercise> armsExercises;
+    private List<Exercise> absExercises;
     private List<Exercise> legsExercises;
     private List<Exercise> backExercises;
 
@@ -90,6 +91,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
         chestExercises = new ArrayList<>();
         armsExercises = new ArrayList<>();
+        absExercises = new ArrayList<>();
         legsExercises = new ArrayList<>();
         backExercises = new ArrayList<>();
 
@@ -123,6 +125,13 @@ public class WorkoutActivity extends AppCompatActivity {
                         startActivity(armsIntent);
                         break;
                     case 3:
+                        Intent absIntent = new Intent(getApplicationContext(),BodyTypeActivity
+                                .class);
+                        absIntent.putExtra("mylist", (Serializable) absExercises);
+                        absIntent.putStringArrayListExtra("wlist",mywList);
+                        startActivity(absIntent);
+                        break;
+                    case 4:
                         Intent legsIntent = new Intent(getApplicationContext(),BodyTypeActivity
                                 .class);
                         legsIntent.putExtra("mylist", (Serializable) legsExercises);
@@ -206,10 +215,15 @@ public class WorkoutActivity extends AppCompatActivity {
                         armsExercises.add(exercise);
                         Log.d("ARMS COUNT", Integer.toString(armsExercises.size()));
                     }
+                    else if(exercise.getExercise_type().equals("Abs")) {
+                        absExercises.add(exercise);
+                        Log.d("ABS COUNT", Integer.toString(absExercises.size()));
+                    }
                     else if(exercise.getBody_type().equals("Legs")) {
                         legsExercises.add(exercise);
                         Log.d("LEGS COUNT", Integer.toString(legsExercises.size()));
-                    } else {
+                    }
+                    else if(exercise.getExercise_type().equals("Back")) {
                         backExercises.add(exercise);
                         Log.d("BACK COUNT", Integer.toString(backExercises.size()));
                     }

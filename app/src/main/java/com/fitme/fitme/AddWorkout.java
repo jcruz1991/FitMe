@@ -45,6 +45,7 @@ public class AddWorkout extends AppCompatActivity {
         usermail = user.getEmail();
 
         btnAdd = (Button)findViewById(R.id.btnAdd);
+
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
