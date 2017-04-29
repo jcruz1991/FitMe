@@ -36,12 +36,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //get Firebase auth instance
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        activeUser = new User();
-
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-        mRef = databaseReference.child("users");
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -57,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
                     startActivityForResult(
                             AuthUI.getInstance()
                                     .createSignInIntentBuilder()
-                                    .setTheme(R.style.GreenTheme)
+                                    .setTheme(R.style.FitMeTheme)
+                                    .setLogo(R.drawable.logo)
                                     .setIsSmartLockEnabled(false)
                                     .setProviders(
                                             AuthUI.EMAIL_PROVIDER,
@@ -67,6 +62,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+
+        //get Firebase auth instance
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        activeUser = new User();
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        mRef = databaseReference.child("users");
     }
 
     /**
