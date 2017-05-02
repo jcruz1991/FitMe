@@ -156,7 +156,6 @@ public class FindBuddyActivity extends AppCompatActivity
                     .build();
         }
 
-
         distances.add("5 miles");
         distances.add("10 miles");
         distances.add("15 miles");
@@ -258,20 +257,37 @@ public class FindBuddyActivity extends AppCompatActivity
         localUsersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //String key = mAdapter.getRef(position).getKey();
 
                 TextView uid = (TextView) view.findViewById(R.id.tvWorkout);
                 String key = uid.getText().toString();    //get the text of the string
-
-                Log.d("SHOWING THIS: ", "SHOW: " + key);
 
                 Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
                 intent.putExtra("LOCATIONS_ID", key);
                 startActivity(intent);
             }
         });
+
+        localUsersListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+                TextView uid = (TextView) view.findViewById(R.id.tvWorkout);
+                String key = uid.getText().toString();    //get the text of the string
+                Log.v("long clicked","pos: " + key);
+
+                // Grab user longitude and latitude
+
+                // Use geocoder to convert to street address
+
+                // Open Google Maps
+
+
+                return true;
+            }
+        });
     }
-    
+
 
     /**
      * Click Event when search for partner button is clicked
