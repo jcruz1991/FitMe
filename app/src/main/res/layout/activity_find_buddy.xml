@@ -17,12 +17,30 @@
         android:textColor="@color/white"
         android:gravity="center"/>
 
+    <TextView
+        android:id="@+id/milesTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activeUserTextView"
+        android:text="Select Distance"
+        android:textSize="15dp"
+        android:textColor="@color/black"/>
+
+    <Spinner
+        android:id="@+id/mileSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"
+        android:layout_below="@+id/milesTextView">
+    </Spinner>
+
     <Button
         android:id="@+id/searchButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/activeUserTextView"
+        android:layout_toRightOf="@+id/mileSpinner"
+        android:layout_below="@+id/mileSpinner"
         android:text="Search For Workout Buddy"
         android:background="@android:color/holo_blue_dark"
         android:textAllCaps="false"
@@ -36,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/activeUserTextView"
+        android:layout_below="@+id/mileSpinner"
         android:background="@android:color/holo_red_dark"
         android:textAllCaps="false"
         android:textColor="@color/white"

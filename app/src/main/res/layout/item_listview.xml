@@ -17,13 +17,15 @@
         android:id="@+id/tvex_name" />
 
     <TextView
-        android:text="Type"
+        android:id="@+id/tBody_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:id="@+id/tBody_type" />
+        android:text="Type"
+        android:textColor="@color/black"
+        android:textAllCaps="false"
+        android:textSize="20dp" />
 
     <TextView
         android:text=""

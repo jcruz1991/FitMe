@@ -7,15 +7,18 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.fitme.fitme.R;
+import com.fitme.fitme.model.GetUserLocation;
 import com.fitme.fitme.model.UserLocation;
+import com.google.android.gms.vision.text.Text;
 
 import java.util.List;
+
 
 public class ListShowUserActivity extends BaseAdapter{
 
     private Context mContext;
-    private List<UserLocation> mProductList;
-    public ListShowUserActivity(Context mContext, List<UserLocation> mProductList) {
+    private List<GetUserLocation> mProductList;
+    public ListShowUserActivity(Context mContext, List<GetUserLocation> mProductList) {
         this.mContext = mContext;
         this.mProductList = mProductList;
     }
@@ -42,9 +45,9 @@ public class ListShowUserActivity extends BaseAdapter{
         TextView tvUser = (TextView)v.findViewById(R.id.tvUserName);
         TextView tvLocation = (TextView)v.findViewById(R.id.tvLocation);
         TextView tvWorkout = (TextView)v.findViewById(R.id.tvWorkout);
-        tvUser.setText(mProductList.get(position).getName());
-        tvLocation.setText(mProductList.get(position).getCity());
-        tvWorkout.setText(mProductList.get(position).getUser_workout());
+        tvUser.setText(mProductList.get(position).getName() + ", " +mProductList.get(position).getCity());
+        tvLocation.setText(mProductList.get(position).getUser_workout() + ", " +mProductList.get(position).getUser_category());
+        tvWorkout.setText(mProductList.get(position).getUser_uid());
         return v;
     }
 }

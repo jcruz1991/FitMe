@@ -17,6 +17,8 @@ import com.fitme.fitme.R;
 import com.fitme.fitme.model.Exercise;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class DisplayExercisesActivity extends AppCompatActivity {
@@ -38,15 +40,15 @@ public class DisplayExercisesActivity extends AppCompatActivity {
         list = (ArrayList<Exercise>) getIntent().getSerializableExtra("mylist");
         gotList =getIntent().getStringArrayListExtra("wlist");
 
-        for (int f =0; f < gotList.size(); f++)
-        {
-            Log.v("ASASAS", "LIST: " + gotList.get(f));
-        }
+
         exercises = new ArrayList<>();
 
         for(int i = 0; i < list.size(); i++) {
             exercises.add(list.get(i).getExercise_name());
         }
+
+        Collections.sort(exercises);
+
         exercisesListView = (ListView) findViewById(R.id.exercisesListView);
 
 

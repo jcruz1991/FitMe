@@ -7,11 +7,12 @@
     <ListView
         android:id="@+id/ListView01"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/tvCategory"
         android:layout_marginBottom="40dp"
         android:layout_marginTop="15dp"
+
         android:layout_weight="1" />
 
     <TextView
@@ -23,7 +24,9 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="TextView"
-        android:textColor="@color/black"
+        android:textAllCaps="false"
+        android:textColor="@color/authui_inputTextColorDark"
+        android:textStyle="bold"
         android:textSize="50sp" />
 
     <TextView
@@ -35,6 +38,8 @@
         android:layout_marginTop="15dp"
         android:gravity="center"
         android:text="TextView"
+        android:textAllCaps="false"
+        android:textColor="@color/authui_inputTextColorDark"
         android:textSize="30sp" />
 
     <Button
@@ -43,11 +48,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/holo_blue_light"
         android:text="Use this workout"
+        android:textAllCaps="false"
         android:textColor="@color/white"
-        android:layout_marginTop="10dp"
-        android:background="@color/com_facebook_button_background_color"
-        android:visibility="visible" />
+        android:visibility="invisible" />
 
 
 </RelativeLayout>

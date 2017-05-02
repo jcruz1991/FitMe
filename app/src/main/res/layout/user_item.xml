@@ -8,20 +8,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView"
+        android:textAllCaps="false"
         android:textColor="@color/authui_inputTextColorDark"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textAllCaps="false"
         android:textColor="@color/authui_inputTextColorDark"
-        android:text="TextView" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/tvWorkout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="1dp"
+        android:text="TextView"
         android:textColor="@color/authui_inputTextColorDark"
-        android:text="TextView" />
+        android:visibility="invisible" />
 </LinearLayout>

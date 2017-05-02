@@ -9,17 +9,23 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.fitme.fitme.adapter.ListSavedExercise;
+import com.fitme.fitme.adapter.ListShowUserActivity;
 import com.fitme.fitme.chat.ChatActivity;
 import com.fitme.fitme.location.LocationCalculator;
+import com.fitme.fitme.model.GetUserLocation;
+import com.fitme.fitme.model.User;
 import com.fitme.fitme.model.UserLocation;
 import com.fitme.fitme.model.Workout;
 import com.fitme.fitme.workout.WorkOutDesc;
@@ -45,10 +51,9 @@ public class FindBuddyActivity extends AppCompatActivity
 
     private Button searchButton;
     private Button removeButton;
-    private TextView displayLocalUsers;
     private ListView localUsersListView;
     private TextView activeUserTextView;
-    //private ArrayList<String> getCloseUser = new ArrayList<>();
+    private Spinner spinner;
 
     private String userID;
     private String username;
@@ -56,9 +61,14 @@ public class FindBuddyActivity extends AppCompatActivity
     private String chosenWorkout = "";
     private String chosenCategory = "";
     private UserLocation userLocation;
-    int count = 0;
+    private int count = 0;
+    private Double selectedDistance = 0.0;
+
     ArrayList<Workout> getwname =new ArrayList<>();
+    ArrayList <GetUserLocation> getLname =new ArrayList<>();
+    List<String> distances = new ArrayList<String>();
     private ListSavedExercise Tadapter;
+    private ListShowUserActivity Ladapter;
     ListView listView;
 
     // Firebase
@@ -67,6 +77,7 @@ public class FindBuddyActivity extends AppCompatActivity
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser user;
     private DatabaseReference myRef;
+    private DatabaseReference mLocationRef;
 
 
     // Firebase Adapter
@@ -91,10 +102,10 @@ public class FindBuddyActivity extends AppCompatActivity
         // Init Views
         searchButton = (Button) findViewById(R.id.searchButton);
         removeButton = (Button) findViewById(R.id.removeButton);
-        displayLocalUsers = (TextView) findViewById(R.id.activeUserTextView);
         localUsersListView = (ListView) findViewById(R.id.localUsers);
         activeUserTextView = (TextView) findViewById(R.id.activeUserTextView);
         listView = (ListView) findViewById(R.id.workoutL);
+        spinner = (Spinner) findViewById(R.id.mileSpinner);
 
         //Remove button to Invisible
         removeButton.setVisibility(View.INVISIBLE);
@@ -104,6 +115,8 @@ public class FindBuddyActivity extends AppCompatActivity
         myRef = mFirebaseDatabase.getReference().child("workouts");
         mDatabaseReference = mFirebaseDatabase.getReference().child("locations");
         mFirebaseAuth = FirebaseAuth.getInstance();
+
+        mLocationRef = mFirebaseDatabase.getReference().child("locations");
 
         // Gets logged in users unique ID
         user = mFirebaseAuth.getCurrentUser();
@@ -129,6 +142,42 @@ public class FindBuddyActivity extends AppCompatActivity
                     .build();
         }
 
+        distances.add("5 miles");
+        distances.add("10 miles");
+        distances.add("15 miles");
+        distances.add("20 miles");
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, distances);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinner.setAdapter(dataAdapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if(parent.getItemAtPosition(position).equals("5 miles")) {
+                    selectedDistance = 8.04672; // 8.04672 km = 5 miles
+                }
+                else if(parent.getItemAtPosition(position).equals("10 miles")) {
+                    selectedDistance = 16.0934; // 16.0934 km = 5 miles
+                }
+                else if(parent.getItemAtPosition(position).equals("15 miles")) {
+                    selectedDistance = 24.1402; // 24.1402 km = 15 miles
+                } else {
+                    selectedDistance = 32.1869; // 24.1402 km = 15 miles
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -138,6 +187,7 @@ public class FindBuddyActivity extends AppCompatActivity
                     Workout check_user = new Workout();
                     check_user.setUser_name(ds.getValue(Workout.class).getUser_name());
                     if (usermail.equals(check_user.getUser_name())) {
+
                         Workout get_workout = new Workout();
                         get_workout.setW_name(ds.getValue(Workout.class).getW_name());
                         get_workout.setW_category(ds.getValue(Workout.class).getW_category());
@@ -171,6 +221,7 @@ public class FindBuddyActivity extends AppCompatActivity
                 Log.d("DATABASE ERROR", String.valueOf(databaseError));
             }
         });
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -191,7 +242,12 @@ public class FindBuddyActivity extends AppCompatActivity
         localUsersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String key = mAdapter.getRef(position).getKey();
+
+                TextView uid = (TextView) view.findViewById(R.id.tvWorkout);
+                String key = uid.getText().toString();    //get the text of the string
+
+                Log.d("SHOWING THIS: ", "SHOW: " + key);
+
                 Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
                 intent.putExtra("LOCATIONS_ID", key);
                 startActivity(intent);
@@ -206,6 +262,7 @@ public class FindBuddyActivity extends AppCompatActivity
      */
     public void searchButtonClicked(View view) {
         // Get User Location and add it into the database
+
         retrieveUserLocation();
 
         listView.setVisibility(View.INVISIBLE);
@@ -213,22 +270,7 @@ public class FindBuddyActivity extends AppCompatActivity
 
         searchButton.setVisibility(View.INVISIBLE);
         removeButton.setVisibility(View.VISIBLE);
-    }
 
-    /**
-     * Click Event when remove location button is clicked
-     * @param view
-     */
-    public void removeLocationClicked(View view) {
-        mDatabaseReference.child(userID).removeValue();
-
-        removeButton.setVisibility(View.INVISIBLE);
-        searchButton.setVisibility(View.VISIBLE);
-
-        mAdapter.cleanup();
-
-        localUsersListView.setVisibility(View.INVISIBLE);
-        listView.setVisibility(View.VISIBLE);
     }
 
     private void retrieveUserLocation() {
@@ -254,7 +296,7 @@ public class FindBuddyActivity extends AppCompatActivity
                 mDatabaseReference.child(userID).setValue(userLocation);
 
                 // Display users near each other
-                findLocalUsers();
+                showLocalUsers();
             }
             else {
                 // Location could not be found
@@ -267,28 +309,69 @@ public class FindBuddyActivity extends AppCompatActivity
             e.printStackTrace();
         }
     }
+    /**
+     * Click Event when remove location button is clicked
+     * @param view
+     */
+    public void removeLocationClicked(View view) {
+        mDatabaseReference.child(userID).removeValue();
 
+        removeButton.setVisibility(View.INVISIBLE);
+        searchButton.setVisibility(View.VISIBLE);
 
+        localUsersListView.setAdapter(null);
 
-    private void findLocalUsers() {
-        mAdapter = new FirebaseListAdapter<UserLocation>(this, UserLocation.class, android.R.layout
-                .two_line_list_item, mDatabaseReference) {
-            @Override
-            protected void populateView(View view, UserLocation user, int position) {
-
-                if (locationCalculator.calculateDistance(userLocation, user) < 8.04672)  // 5 miles
-                {
-                    ((TextView) view.findViewById(android.R.id.text1)).setText(user.getName() + ", "
-                            + user.getCity());
-                    ((TextView) view.findViewById(android.R.id.text2)).setText(user.getUser_workout()
-                            + ", " + user.getUser_category());
-                }
-
-            }
-        };
-        localUsersListView.setAdapter(mAdapter);
+        localUsersListView.setVisibility(View.INVISIBLE);
+        listView.setVisibility(View.VISIBLE);
     }
 
+
+    private void showLocalUsers(){
+        mLocationRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // loops through all children in exercises table
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    String requests = ds.getKey();
+                    GetUserLocation get_userL = new GetUserLocation();
+                    get_userL.setCity(ds.getValue(UserLocation.class).getCity());
+                    get_userL.setLatitude(ds.getValue(UserLocation.class).getLatitude());
+                    get_userL.setLongitude(ds.getValue(UserLocation.class).getLongitude());
+                    get_userL.setName(ds.getValue(UserLocation.class).getName());
+                    get_userL.setUser_category(ds.getValue(UserLocation.class).getUser_category());
+                    get_userL.setUser_workout(ds.getValue(UserLocation.class).getUser_workout());
+                    get_userL.setUser_uid(requests);
+                    if(!username.equals(get_userL.getName()))
+                    {
+                        if (locationCalculator.calculateDistance(userLocation, get_userL) < selectedDistance)
+                        {
+                            if(getLname.isEmpty())
+                            {
+                                getLname.add(get_userL);
+                            }
+                            else
+                            {
+                                if(!requests.equals(getLname.get(0).getUser_uid()))
+                                {
+                                    getLname.add(get_userL);
+                                    Log.d("PLEASE SHOW:", "SHOW: " + requests + " ::  " + getLname);
+                                }
+                            }
+                        }
+                    }
+
+
+                }
+
+                createLoclist();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("DATABASE ERROR", String.valueOf(databaseError));
+            }
+        });
+
+    }
 
     @Override
     protected void onStart() {
@@ -321,5 +404,12 @@ public class FindBuddyActivity extends AppCompatActivity
         Tadapter = new ListSavedExercise(this, getwname);
         listView.setAdapter(Tadapter);
     }
+
+    private void createLoclist() {
+        Ladapter = new ListShowUserActivity(this, getLname);
+        localUsersListView.setAdapter(Ladapter);
+    }
+
 }
+
 

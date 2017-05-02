@@ -14,6 +14,8 @@ import com.fitme.fitme.model.Exercise;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class BodyTypeActivity extends AppCompatActivity {
@@ -67,6 +69,7 @@ public class BodyTypeActivity extends AppCompatActivity {
             else {
                 otherExercises.add(list.get(i));
             }
+
         }
 
         showBodyTypesListView();
