@@ -73,6 +73,7 @@ public class FindBuddyActivity extends AppCompatActivity
     private ListShowUserActivity Ladapter;
     ListView listView;
     private int checkRequest;
+    private String workoutSelected;
 
     // Firebase
     private FirebaseDatabase mFirebaseDatabase;
@@ -100,6 +101,7 @@ public class FindBuddyActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_buddy);
 
+        workoutSelected = getIntent().getStringExtra("workoutSelected");
         chosenWorkout = getIntent().getStringExtra("workname");
         chosenCategory = getIntent().getStringExtra("workcategory");
         // Init Views
@@ -112,10 +114,15 @@ public class FindBuddyActivity extends AppCompatActivity
         spinner = (Spinner) findViewById(R.id.mileSpinner);
 
         //Remove button to Invisible
-        removeButton.setVisibility(View.INVISIBLE);
+        removeButton.setVisibility(View.GONE);
+        searchButton.setVisibility(View.GONE);
+
+        if(workoutSelected.equals("1"))
+            searchButton.setVisibility(View.VISIBLE);
+
 
         checked = 0;
-        checkRequest =0;
+        checkRequest = 0;
 
         // Firebase
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -264,6 +271,7 @@ public class FindBuddyActivity extends AppCompatActivity
             }
         });
     }
+    
 
     /**
      * Click Event when search for partner button is clicked
@@ -278,7 +286,7 @@ public class FindBuddyActivity extends AppCompatActivity
         listView.setVisibility(View.INVISIBLE);
         localUsersListView.setVisibility(View.VISIBLE);
 
-        searchButton.setVisibility(View.INVISIBLE);
+        searchButton.setVisibility(View.GONE);
         removeButton.setVisibility(View.VISIBLE);
 
     }
@@ -327,8 +335,8 @@ public class FindBuddyActivity extends AppCompatActivity
     public void removeLocationClicked(View view) {
         mDatabaseReference.child(userID).removeValue();
 
-        removeButton.setVisibility(View.INVISIBLE);
-        searchButton.setVisibility(View.VISIBLE);
+        removeButton.setVisibility(View.GONE);
+        searchButton.setVisibility(View.GONE);
 
         localUsersListView.setAdapter(null);
 

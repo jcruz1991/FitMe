@@ -135,6 +135,7 @@ public class WorkOutDesc extends Activity {
                 Intent intent = new Intent(WorkOutDesc.this, FindBuddyActivity.class);
                 intent.putExtra("workname", tvWname.getText());
                 intent.putExtra("workcategory", tvCategory.getText());
+                intent.putExtra("workoutSelected", "1");
                 startActivity(intent);
 
             }

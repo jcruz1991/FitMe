@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Intent intent = new Intent(MainActivity.this, FindBuddyActivity.class);
+        intent.putExtra("workoutSelected", "0");
         startActivity(intent);
     }
 
