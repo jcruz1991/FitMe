@@ -33,6 +33,7 @@ import com.fitme.fitme.workout.WorkOutDesc;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.vision.text.Text;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -55,8 +56,9 @@ public class FindBuddyActivity extends AppCompatActivity
     private TextView displayLocalUsers;
     private ListView localUsersListView;
     private TextView activeUserTextView;
+    private TextView milesTextView;
     private Spinner spinner;
-    //private ArrayList<String> getCloseUser = new ArrayList<>();
+
 
     private String userID;
     private String username;
@@ -113,6 +115,7 @@ public class FindBuddyActivity extends AppCompatActivity
         displayLocalUsers = (TextView) findViewById(R.id.activeUserTextView);
         localUsersListView = (ListView) findViewById(R.id.localUsers);
         activeUserTextView = (TextView) findViewById(R.id.activeUserTextView);
+        milesTextView = (TextView) findViewById(R.id.milesTextView);
         listView = (ListView) findViewById(R.id.workoutL);
         spinner = (Spinner) findViewById(R.id.mileSpinner);
 
@@ -120,8 +123,9 @@ public class FindBuddyActivity extends AppCompatActivity
         removeButton.setVisibility(View.GONE);
         searchButton.setVisibility(View.GONE);
 
-        if(workoutSelected.equals("1"))
+        if(workoutSelected.equals("1")) {
             searchButton.setVisibility(View.VISIBLE);
+        }
 
 
         checked = 0;
@@ -327,10 +331,12 @@ public class FindBuddyActivity extends AppCompatActivity
 
         retrieveUserLocation();
 
-        listView.setVisibility(View.INVISIBLE);
+        listView.setVisibility(View.GONE);
         localUsersListView.setVisibility(View.VISIBLE);
 
         searchButton.setVisibility(View.GONE);
+        milesTextView.setVisibility(View.GONE);
+        spinner.setVisibility(View.GONE);
         removeButton.setVisibility(View.VISIBLE);
 
     }
@@ -385,6 +391,8 @@ public class FindBuddyActivity extends AppCompatActivity
         localUsersListView.setAdapter(null);
 
         localUsersListView.setVisibility(View.INVISIBLE);
+        milesTextView.setVisibility(View.VISIBLE);
+        spinner.setVisibility(View.VISIBLE);
         listView.setVisibility(View.VISIBLE);
     }
 
@@ -435,23 +443,20 @@ public class FindBuddyActivity extends AppCompatActivity
                     get_userL.setUser_workout(ds.getValue(UserLocation.class).getUser_workout());
                     get_userL.setUser_uid(requests);
 
-                    if(!username.equals(get_userL.getName()))
-                    {
-                        if (locationCalculator.calculateDistance(userLocation, get_userL) < selectedDistance)  // 5 miles
-                        {
-                            if(getLname.isEmpty())
-                            {
+                    if(!username.equals(get_userL.getName())) {
+
+                        // Search for users based on user selection of distance radius
+                        if (locationCalculator.calculateDistance(userLocation, get_userL) < selectedDistance) {
+                            if(getLname.isEmpty()) {
                                 getLname.add(get_userL);
                             }
-                            else
-                            {
+                            else {
                                 for(int j = 0; j < getLname.size(); ++ j)
                                 {
                                     if(requests.equals(getLname.get(j).getUser_uid()))
                                         checkRequest ++;
                                 }
-                                if(!requests.equals(userkey) && checkRequest==0)
-                                {
+                                if(!requests.equals(userkey) && checkRequest==0) {
                                     getLname.add(get_userL);
                                     Log.d("PLEASE SHOW:", "SHOW: " + requests + " ::  " +getLname.get(0).getUser_uid());
                                 }
