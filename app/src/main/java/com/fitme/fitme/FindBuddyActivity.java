@@ -274,10 +274,11 @@ public class FindBuddyActivity extends AppCompatActivity
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-
+                // Grabs User ID
                 TextView uid = (TextView) view.findViewById(R.id.tvWorkout);
                 key = uid.getText().toString();    //get the text of the string
 
+                // Searches locations table using the ID
                 mLocationRef.orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -285,19 +286,20 @@ public class FindBuddyActivity extends AppCompatActivity
                         for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
 
                             String dataKey = childDataSnapshot.getKey();
+
+                            // If ID is found
                             if(dataKey.equals(key)) {
+
+                                // Set longitude and latitude locations
                                 UserLocation user = new UserLocation();
                                 user.setLatitude(childDataSnapshot.getValue(UserLocation.class).getLatitude());
                                 user.setLongitude(childDataSnapshot.getValue(UserLocation.class).getLongitude());
 
-                                Log.d("LAT","LAT " + user.getLatitude());
-                                Log.d("LONG","LONG " + user.getLongitude());
-
+                                // Opens up Google Maps to see user's location
                                 String strUri = "http://maps.google.com/maps?q=loc:" + user.getLatitude() + "," + user.getLongitude() + " (" + "Label which you want" + ")";
                                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(strUri));
 
                                 intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
-
                                 startActivity(intent);
 
                             }
@@ -306,7 +308,6 @@ public class FindBuddyActivity extends AppCompatActivity
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
                     }
                 });
 
