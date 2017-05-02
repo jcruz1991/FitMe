@@ -1,9 +1,11 @@
 package com.fitme.fitme;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -62,6 +64,7 @@ public class FindBuddyActivity extends AppCompatActivity
     private String chosenWorkout = "";
     private String chosenCategory = "";
     private String userkey;
+    private String key;
     private UserLocation userLocation;
     int count = 0;
     private Double selectedDistance = 0.0;
@@ -189,7 +192,6 @@ public class FindBuddyActivity extends AppCompatActivity
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
@@ -237,6 +239,7 @@ public class FindBuddyActivity extends AppCompatActivity
                 Log.d("DATABASE ERROR", String.valueOf(databaseError));
             }
         });
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -244,7 +247,7 @@ public class FindBuddyActivity extends AppCompatActivity
                                     int position, long id) {
                 // ListView Clicked item value
                 TextView textView = (TextView) view.findViewById(R.id.tBody_type);
-                String text = textView.getText().toString();    //get the text of the string
+                String text = textView.getText().toString(); //get the text of the string
 
                 Intent intent = new Intent(FindBuddyActivity.this, WorkOutDesc.class);
                 intent.putExtra("workname", text);
@@ -259,7 +262,7 @@ public class FindBuddyActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 TextView uid = (TextView) view.findViewById(R.id.tvWorkout);
-                String key = uid.getText().toString();    //get the text of the string
+                String key = uid.getText().toString(); // Get the text of the string
 
                 Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
                 intent.putExtra("LOCATIONS_ID", key);
@@ -273,15 +276,39 @@ public class FindBuddyActivity extends AppCompatActivity
 
 
                 TextView uid = (TextView) view.findViewById(R.id.tvWorkout);
-                String key = uid.getText().toString();    //get the text of the string
-                Log.v("long clicked","pos: " + key);
+                key = uid.getText().toString();    //get the text of the string
 
-                // Grab user longitude and latitude
+                mLocationRef.orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
 
-                // Use geocoder to convert to street address
+                        for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
 
-                // Open Google Maps
+                            String dataKey = childDataSnapshot.getKey();
+                            if(dataKey.equals(key)) {
+                                UserLocation user = new UserLocation();
+                                user.setLatitude(childDataSnapshot.getValue(UserLocation.class).getLatitude());
+                                user.setLongitude(childDataSnapshot.getValue(UserLocation.class).getLongitude());
 
+                                Log.d("LAT","LAT " + user.getLatitude());
+                                Log.d("LONG","LONG " + user.getLongitude());
+
+                                String strUri = "http://maps.google.com/maps?q=loc:" + user.getLatitude() + "," + user.getLongitude() + " (" + "Label which you want" + ")";
+                                Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(strUri));
+
+                                intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+
+                                startActivity(intent);
+
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
                 return true;
             }
@@ -382,7 +409,6 @@ public class FindBuddyActivity extends AppCompatActivity
                         userkey = getLname.get(0).getUser_uid();
                     }
                 }
-                //createLoclist();
                 showLocalUsers();
             }
             @Override
