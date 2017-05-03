@@ -103,10 +103,6 @@ public class DisplayWorkout extends AppCompatActivity{
                 // ListView Clicked item value
                 TextView textView = (TextView) view.findViewById(R.id.tBody_type);
                 String text = textView.getText().toString();    //get the text of the string
-                Toast.makeText(getApplicationContext(),
-                        "Position :" + text , Toast.LENGTH_LONG)
-                        .show();
-
 
                 Intent intent = new Intent(DisplayWorkout.this, WorkOutDesc.class);
                 intent.putExtra("workname", text);

@@ -179,8 +179,6 @@ public class CalendarView extends LinearLayout
 
     }
 
-
-
     /**
      * Display dates correctly in grid
      */
@@ -302,8 +300,6 @@ public class CalendarView extends LinearLayout
                                 view.setBackgroundResource(R.drawable.sleep2);
                             else
                                 view.setBackgroundColor(view.getContext().getResources().getColor(R.color.green));
-                            //((TextView) view).setTextColor(getResources().getColor(R.color.white));
-
 
                             break;
                         }

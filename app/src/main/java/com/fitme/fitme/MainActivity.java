@@ -126,10 +126,17 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /*
     public void addButtonClicked(View view) {
         Intent intent = new Intent(MainActivity.this, AddWorkout.class);
         startActivity(intent);
     }
+    */
+
+    /**
+     *
+     * @param view
+     */
     public void ShowWorkoutButtonClicked(View view) {
         Intent intent = new Intent(MainActivity.this, DisplayWorkout.class);
         startActivity(intent);
