@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
     public void findBuddyButtonClicked(View view) {
         final Button button = (Button) findViewById(R.id.findBuddyButton);
 
+        /*
         button.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+        */
 
         Intent intent = new Intent(MainActivity.this, FindBuddyActivity.class);
         intent.putExtra("workoutSelected", "0");
@@ -121,6 +123,11 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, Calendar.class);
         startActivity(intent);
     }
+
+    /**
+     * Button click event when user clicks create workout(s) button
+     * @param view
+     */
     public void workoutButtonClicked(View view) {
         Intent intent = new Intent(MainActivity.this, WorkoutActivity.class);
         startActivity(intent);
@@ -134,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
     */
 
     /**
-     *
+     * Button click event when user clicks show workouts button
      * @param view
      */
     public void ShowWorkoutButtonClicked(View view) {
