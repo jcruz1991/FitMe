@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void signOutButtonClicked(View view) {
         mFirebaseAuth.signOut();
-        finish();
+        //finish();
     }
 
     /**
