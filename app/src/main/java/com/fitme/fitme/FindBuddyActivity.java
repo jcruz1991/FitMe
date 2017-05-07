@@ -1,5 +1,4 @@
 package com.fitme.fitme;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.location.Address;
@@ -109,6 +108,7 @@ public class FindBuddyActivity extends AppCompatActivity
         workoutSelected = getIntent().getStringExtra("workoutSelected");
         chosenWorkout = getIntent().getStringExtra("workname");
         chosenCategory = getIntent().getStringExtra("workcategory");
+
         // Init Views
         searchButton = (Button) findViewById(R.id.searchButton);
         removeButton = (Button) findViewById(R.id.removeButton);
@@ -128,7 +128,8 @@ public class FindBuddyActivity extends AppCompatActivity
         }
 
 
-        checked = 0;
+
+        checked =0;
         checkRequest = 0;
 
         // Firebase
@@ -267,7 +268,8 @@ public class FindBuddyActivity extends AppCompatActivity
 
                 TextView uid = (TextView) view.findViewById(R.id.tvWorkout);
                 String key = uid.getText().toString(); // Get the text of the string
-
+                //getLname.clear();
+                //Ladapter.notifyDataSetChanged();
                 Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
                 intent.putExtra("LOCATIONS_ID", key);
                 startActivity(intent);
@@ -318,6 +320,8 @@ public class FindBuddyActivity extends AppCompatActivity
                 return true;
             }
         });
+
+
     }
 
 
@@ -330,6 +334,7 @@ public class FindBuddyActivity extends AppCompatActivity
         // Get User Location and add it into the database
 
         retrieveUserLocation();
+
 
         listView.setVisibility(View.GONE);
         localUsersListView.setVisibility(View.VISIBLE);
@@ -390,6 +395,7 @@ public class FindBuddyActivity extends AppCompatActivity
 
         localUsersListView.setAdapter(null);
 
+
         localUsersListView.setVisibility(View.INVISIBLE);
         milesTextView.setVisibility(View.VISIBLE);
         spinner.setVisibility(View.VISIBLE);
@@ -412,19 +418,28 @@ public class FindBuddyActivity extends AppCompatActivity
                     get_userL.setUser_category(ds.getValue(UserLocation.class).getUser_category());
                     get_userL.setUser_workout(ds.getValue(UserLocation.class).getUser_workout());
                     get_userL.setUser_uid(requests);
-                    if(username.equals(get_userL.getName()))    //set the current user as the first of the list
+                    if (username.equals(get_userL.getName()))    //set the current user as the first of the list
                     {
-                        getLname.add(get_userL);
-                        userkey = getLname.get(0).getUser_uid();
+                        if(checked == 0) {
+                            getLname.add(get_userL);
+                            userkey = getLname.get(0).getUser_uid();
+                            checked ++;
+                            Log.d("HURARABBF", "THE LIST OF: " + get_userL.getCity() + ", " + get_userL.getLatitude() + ", "
+                                    + get_userL.getLongitude() + ", " + get_userL.getName() + ", " + get_userL.getUser_category() + ", "
+                                    + get_userL.getUser_workout() + ", " + get_userL.getUser_uid());
+                        }
                     }
                 }
+
                 showLocalUsers();
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.d("DATABASE ERROR", String.valueOf(databaseError));
             }
         });
+
 
     }
     private void showLocalUsers(){
@@ -443,22 +458,33 @@ public class FindBuddyActivity extends AppCompatActivity
                     get_userL.setUser_workout(ds.getValue(UserLocation.class).getUser_workout());
                     get_userL.setUser_uid(requests);
 
+                    Log.d("HURARABB", "THE LIST: " + get_userL.getCity() + ", " + get_userL.getLatitude() + ", "
+                            + get_userL.getLongitude() + ", "+ get_userL.getName() + ", "+ get_userL.getUser_category() + ", "
+                            + get_userL.getUser_workout() + ", "+ get_userL.getUser_uid());
+                    checkRequest = 0;
                     if(!username.equals(get_userL.getName())) {
 
                         // Search for users based on user selection of distance radius
                         if (locationCalculator.calculateDistance(userLocation, get_userL) < selectedDistance) {
                             if(getLname.isEmpty()) {
                                 getLname.add(get_userL);
+                                Log.d("HURARA", " SDFAD");
                             }
                             else {
                                 for(int j = 0; j < getLname.size(); ++ j)
                                 {
-                                    if(requests.equals(getLname.get(j).getUser_uid()))
-                                        checkRequest ++;
+                                    if(requests.equals(getLname.get(j).getUser_uid())) {
+                                        checkRequest++;
+                                        Log.d("HURARA", " SDFAD123");
+
+                                    }
                                 }
                                 if(!requests.equals(userkey) && checkRequest==0) {
                                     getLname.add(get_userL);
-                                    Log.d("PLEASE SHOW:", "SHOW: " + requests + " ::  " +getLname.get(0).getUser_uid());
+
+                                    Log.d("HURARABBF", "THE LIST: " + get_userL.getCity() + ", " + get_userL.getLatitude() + ", "
+                                            + get_userL.getLongitude() + ", "+ get_userL.getName() + ", "+ get_userL.getUser_category() + ", "
+                                            + get_userL.getUser_workout() + ", "+ get_userL.getUser_uid());
                                 }
 
 
@@ -505,12 +531,16 @@ public class FindBuddyActivity extends AppCompatActivity
 
     private void createWnamelist() {
         Tadapter = new ListSavedExercise(this, getwname);
+        Tadapter.notifyDataSetChanged();
         listView.setAdapter(Tadapter);
+
     }
 
     private void createLoclist() {
         Ladapter = new ListShowUserActivity(this, getLname);
+        Ladapter.notifyDataSetChanged();
         localUsersListView.setAdapter(Ladapter);
-    }
-}
 
+    }
+
+}
