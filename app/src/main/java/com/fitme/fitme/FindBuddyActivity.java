@@ -268,8 +268,6 @@ public class FindBuddyActivity extends AppCompatActivity
 
                 TextView uid = (TextView) view.findViewById(R.id.tvWorkout);
                 String key = uid.getText().toString(); // Get the text of the string
-                //getLname.clear();
-                //Ladapter.notifyDataSetChanged();
                 Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
                 intent.putExtra("LOCATIONS_ID", key);
                 startActivity(intent);
@@ -424,9 +422,6 @@ public class FindBuddyActivity extends AppCompatActivity
                             getLname.add(get_userL);
                             userkey = getLname.get(0).getUser_uid();
                             checked ++;
-                            Log.d("HURARABBF", "THE LIST OF: " + get_userL.getCity() + ", " + get_userL.getLatitude() + ", "
-                                    + get_userL.getLongitude() + ", " + get_userL.getName() + ", " + get_userL.getUser_category() + ", "
-                                    + get_userL.getUser_workout() + ", " + get_userL.getUser_uid());
                         }
                     }
                 }
@@ -457,10 +452,6 @@ public class FindBuddyActivity extends AppCompatActivity
                     get_userL.setUser_category(ds.getValue(UserLocation.class).getUser_category());
                     get_userL.setUser_workout(ds.getValue(UserLocation.class).getUser_workout());
                     get_userL.setUser_uid(requests);
-
-                    Log.d("HURARABB", "THE LIST: " + get_userL.getCity() + ", " + get_userL.getLatitude() + ", "
-                            + get_userL.getLongitude() + ", "+ get_userL.getName() + ", "+ get_userL.getUser_category() + ", "
-                            + get_userL.getUser_workout() + ", "+ get_userL.getUser_uid());
                     checkRequest = 0;
                     if(!username.equals(get_userL.getName())) {
 
@@ -468,23 +459,16 @@ public class FindBuddyActivity extends AppCompatActivity
                         if (locationCalculator.calculateDistance(userLocation, get_userL) < selectedDistance) {
                             if(getLname.isEmpty()) {
                                 getLname.add(get_userL);
-                                Log.d("HURARA", " SDFAD");
                             }
                             else {
                                 for(int j = 0; j < getLname.size(); ++ j)
                                 {
                                     if(requests.equals(getLname.get(j).getUser_uid())) {
-                                        checkRequest++;
-                                        Log.d("HURARA", " SDFAD123");
-
+                                        checkRequest++;                                      
                                     }
                                 }
                                 if(!requests.equals(userkey) && checkRequest==0) {
                                     getLname.add(get_userL);
-
-                                    Log.d("HURARABBF", "THE LIST: " + get_userL.getCity() + ", " + get_userL.getLatitude() + ", "
-                                            + get_userL.getLongitude() + ", "+ get_userL.getName() + ", "+ get_userL.getUser_category() + ", "
-                                            + get_userL.getUser_workout() + ", "+ get_userL.getUser_uid());
                                 }
 
 
