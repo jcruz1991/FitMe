@@ -57,7 +57,6 @@ public class Calendar extends AppCompatActivity
         // Get Firebase Instances and Refrences
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        //myRef = mFirebaseDatabase.getReference().child("workout");
         myRef = mFirebaseDatabase.getReference().child("workouts");
 
         // Get current user
@@ -88,8 +87,7 @@ public class Calendar extends AppCompatActivity
                 }
                 //copy the workout name and split the date into day,month and year
                 for (int i = 0; i < getwork.size(); i++) {
-                    String splitdate = getwork.get(i).getW_date();
-                    Log.d("SHOW_ME: ", "SHOW: " + splitdate);
+                    String splitdate = getwork.get(i).getW_date();              
                     splitdate = splitdate.replaceAll("-"," ");
                     //split the date into day, month, and year
                     final String[] splited = splitdate.split("\\s+");
@@ -97,14 +95,11 @@ public class Calendar extends AppCompatActivity
                     NewDates.add(splited[0]);
                     NewDates.add(splited[1]);
                     NewDates.add(splited[2]);
-                    Log.d("SHOW_ME: ", "SHOW: " + getwork.get(i).getW_name() +"  "+ splited[0] +"  "+ splited[1]+"  "+ splited[2]);
-
                 }
                 final HashSet<Date> events = new HashSet<>();
                 events.add(new Date());
 
-                final CalendarView cv = ((CalendarView)findViewById(R.id.calendar_view));
-                //cv.updateCalendar(events);
+                final CalendarView cv = ((CalendarView)findViewById(R.id.calendar_view));               
                 cv.updateCalendar(NewDates);
 
                 // assign event handler
@@ -124,15 +119,9 @@ public class Calendar extends AppCompatActivity
                         //change the "," into " " in date
                         ab = ab.replaceAll(","," ");
                         //split the date into day, month, and year
-                        final String[] splited = ab.split("\\s+");
-                        for(int i = 0; i < splited.length; i++)
-                        {
-                            Log.d("ASFE", "MONTH:" + splited[0] + "  DAY:" + splited[1] + "  YEAR:"+ splited[2] );
-                        }
+                        final String[] splited = ab.split("\\s+");                    
                         storeday = splited[1].trim();
-                        //get the year from 2017 to 117 to add into database
-                        //String substring = splited[2].substring(Math.max(splited[2].length() - 2, 0));
-                        //storeyear = ("1" + substring).trim();
+                        //get the year from 2017 to 117 to add into database                    
                         storeyear = splited[2].trim();
                         trimmonth = splited[0].trim();
 
@@ -173,8 +162,6 @@ public class Calendar extends AppCompatActivity
                             storemonth = "12";
                         }
                         collectivedate = storemonth+"-"+storeday+"-"+storeyear;
-
-                        //cv.updateCalendar(mDatesList);
                         cv.updateCalendar(NewDates);
 
                         //if selected date already have a routine or rest day then dont show the dialog but show the
