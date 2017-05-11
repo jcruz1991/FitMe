@@ -64,7 +64,6 @@ public class WorkoutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_workout);
         setContentView(R.layout.start_workout);
 
         mywList = getIntent().getStringArrayListExtra("wlist");
@@ -78,15 +77,10 @@ public class WorkoutActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         usermail = user.getEmail();
 
-        //bodyTypeListView = (ListView) findViewById(R.id.bodyTypeListView);
         list = (ListView) findViewById(R.id.list);
         bDone = (Button)findViewById(R.id.bDone);
         bCancel = (Button)findViewById(R.id.bCancel);
 
-        for (int f =0; f < mywList.size(); f++)
-        {
-            Log.v("ASASAS", "LIST: " + mywList.get(f));
-        }
         workout = new Workout();
 
         chestExercises = new ArrayList<>();
