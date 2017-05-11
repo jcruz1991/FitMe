@@ -48,11 +48,6 @@ public class BodyTypeActivity extends AppCompatActivity {
 
         list = (ArrayList<Exercise>) getIntent().getSerializableExtra("mylist");
         passedList =getIntent().getStringArrayListExtra("wlist");
-        for (int f =0; f < passedList.size(); f++)
-        {
-            Log.v("ASASAS", "LIST: " + passedList.get(f));
-        }
-
         for(int i = 0; i < list.size(); i++) {
             if(list.get(i).getExercise_type().equals("Body")) {
                 bodyExcercises.add(list.get(i));
