@@ -45,7 +45,6 @@ public class DisplayWorkout extends AppCompatActivity{
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        //myRef = mFirebaseDatabase.getReference().child("workout");
         myRef = mFirebaseDatabase.getReference().child("workouts");
         // Get current user
         user = FirebaseAuth.getInstance().getCurrentUser();
